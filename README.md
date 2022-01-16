@@ -1,2 +1,2 @@
 # YAT
-YAT - Yet another Todo app
+YAT - Yet another Todo app, built in python
