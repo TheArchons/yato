@@ -5,3 +5,4 @@ yato - Yet another TODO
 -a      Add to a TODO list
 -c      Mark a list object as complete
 -r      Remove from a TODO list
+-l      List all TODO lists
