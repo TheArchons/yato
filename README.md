@@ -2,4 +2,4 @@
 yato - Yet another Todo app, built in python 3
 
 # dependencies
-termcolor
+termcolor - install with `pip install termcolor`
