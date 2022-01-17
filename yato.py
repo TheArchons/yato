@@ -14,4 +14,6 @@ def main():
         completeTask(getFile(2), getTask(3))
     elif getCmd() == '-r' or getCmd() == '--remove': #Remove task
         removeTask(getFile(2), getTask(3))
+    elif getCmd() == '-i' or getCmd() == '--insert': #Insert task
+        insertTask(getFile(2), getTask(3), getTask(4))
 main()

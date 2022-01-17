@@ -54,3 +54,15 @@ def removeTask(list, task):
             replaceLine(list, line, '')
             file.close()
             return
+
+def insertTask(list, task, find):
+    file = open(list, 'r')
+    lines = file.readlines()
+    for line in reversed(lines):
+        if line.split(',')[0] == find:
+            print(f'Task {task} inserted after {find}.')
+            replaceLine(list, line, task + ',' + 'incomplete' + '\n' + line)
+            file.close()
+            return
+    print(f'Task {find} not found.')
+    file.close()
