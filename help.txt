@@ -1,4 +1,4 @@
-Yet another TODO
+yato - Yet another TODO
 
 -h      The help menu
 -n      Create a new TODO list
