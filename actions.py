@@ -1,4 +1,6 @@
 from termcolor import colored
+import fileinput
+from replace import replaceLine
 
 def help():
     helpFile = open('help.txt', 'r')
@@ -18,28 +20,24 @@ def listTasks(fileLocation):
     file = open(fileLocation, 'r')
     lines = file.readlines()
     for line in reversed(lines):
-        if line.split(',')[1] == 'completed\n':
-            print(colored(line.split(',')[0], 'green'))
+        if line.split(',')[1] == 'complete\n':
+            print(colored(line.split(',')[0], 'green')) #print as green if completed
         else:
-            print(colored(line.split(',')[0], 'red'))
+            print(colored(line.split(',')[0], 'red')) #print as red if incomplete
     file.close()
 
 def completeTask(list, task):
+    task = task.split()[0]
     file = open(list, 'r')
     lines = file.readlines()
-    file.close()
-    file = open(list, 'w')
-    for line in lines:
-        if line == task + ',incomplete\n':
-            line = task+',completed\n'
-            file.write(line)
-            file.close()
-            print(f'Task {task} completed.')
-            return
-        elif line == task + ',completed\n':
-            line = task+',incomplete\n'
-            file.write(line)
-            file.close()
-            print(f'Task {task} uncompleted.')
+    for line in reversed(lines):
+        if line.split(',')[0] == task:
+            if line.split(',')[1] == 'complete\n':
+                complete = 'incomplete'
+            else:
+                complete = 'complete'
+            print(complete)
+            replaceLine(list, line, line.replace(line, task + ',' + complete + '\n'))
+            print(f'Task {task} marked as {complete}.')
             return
     print(f'Task {task} not found.')

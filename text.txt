@@ -1,2 +1,1 @@
-test,completed
-test2,incomplete
+test,complete
