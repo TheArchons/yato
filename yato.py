@@ -1,26 +1,11 @@
 import sys
-
-def help():
-    helpFile = open('help.txt', 'r')
-    print(helpFile.read())
-    helpFile.close()
-
-def new(fileLocation):
-    print('File created at: ' + fileLocation)
-    
-def addToList(list, add):
-    file = open(list, 'a')
-    file.write(add + '\n')
-    print(f'Task {sys.argv[3]} added.')
-    file.close()
-
-def listTasks(fileLocation):
-    file = open(fileLocation, 'r')
-    print(file.read())
-    file.close()
+from actions import *
 
 def main():
-    print(sys.argv[1])
+    #DEBUGGING
+    print("command: " + sys.argv[1])
+    #print(sys.argv[3])
+    #END DEBUGGING
     if sys.argv[1] == '-h' or sys.argv[1] == '--help': #help at help.txt
         help()
     elif sys.argv[1] == '-n' or sys.argv[1] == '--new': #New List
@@ -41,7 +26,7 @@ def main():
             try:
                 add = sys.argv[3]
                 addToList(fileLocation, add)
-            except:
+            except IndexError:
                 print('No task given.')
                 sys.exit()
         except FileNotFoundError:
@@ -65,5 +50,5 @@ def main():
         except IndexError:
             print('No file location given.')
             sys.exit()
-            
+
 main()
