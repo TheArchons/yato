@@ -39,5 +39,18 @@ def completeTask(list, task):
             print(complete)
             replaceLine(list, line, line.replace(line, task + ',' + complete + '\n'))
             print(f'Task {task} marked as {complete}.')
+            file.close()
             return
     print(f'Task {task} not found.')
+    file.close()
+
+def removeTask(list, task):
+    task = task.split()[0]
+    file = open(list, 'r')
+    lines = file.readlines()
+    for line in reversed(lines):
+        if line.split(',')[0] == task:
+            print(f'Task {task} removed.')
+            replaceLine(list, line, '')
+            file.close()
+            return

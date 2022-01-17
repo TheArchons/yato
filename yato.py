@@ -12,5 +12,6 @@ def main():
         listTasks(getFile(2))
     elif getCmd() == '-c' or getCmd() == '--complete': #Complete task
         completeTask(getFile(2), getTask(3))
-
+    elif getCmd() == '-r' or getCmd() == '--remove': #Remove task
+        removeTask(getFile(2), getTask(3))
 main()
