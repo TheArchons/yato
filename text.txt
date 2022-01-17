@@ -1,3 +1,0 @@
-test,incomplete
-test2,complete
-test4,incomplete
