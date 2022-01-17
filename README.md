@@ -1,2 +1,5 @@
-# YAT
-YAT - Yet another Todo app, built in python
+# yato
+yato - Yet another Todo app, built in python 3
+
+# dependencies
+termcolor
