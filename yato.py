@@ -18,4 +18,6 @@ def main():
         removeTask(getFile(2), getTask(3))
     elif getCmd() == '-ll' or getCmd() == '--list-all':#lists all lists
         listAllLists()
+    elif getCmd() == '-i' or getCmd() == '--insert': #Insert task
+        insertTask(getFile(2), getTask(3), getTask(4))
 main()
