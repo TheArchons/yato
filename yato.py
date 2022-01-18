@@ -1,7 +1,9 @@
 from actions import *
 from get import *
+import os
 
 def main():
+    createListList() #create lists.txt if it doesnt exist
     if getCmd() == '-h' or getCmd() == '--help': #help at help.txt
         help()
     elif getCmd() == '-n' or getCmd() == '--new': #New List
@@ -14,4 +16,6 @@ def main():
         completeTask(getFile(2), getTask(3))
     elif getCmd() == '-r' or getCmd() == '--remove': #Remove task
         removeTask(getFile(2), getTask(3))
+    elif getCmd() == '-ll' or getCmd() == '--list-all':#lists all lists
+        listAllLists()
 main()

@@ -1,6 +1,8 @@
 from termcolor import colored
 import fileinput
 from replace import replaceLine
+import sys
+import os
 
 def help():
     helpFile = open('help.txt', 'r')
@@ -8,6 +10,18 @@ def help():
     helpFile.close()
 
 def new(fileLocation):
+    try:
+        file = open(fileLocation, 'x')
+        file.close()
+    except FileExistsError:
+        print('File already exists.')
+        sys.exit()
+    except PermissionError:
+        print('Permission denied.')
+        sys.exit()
+    file = open('lists.txt', 'a')
+    file.write(fileLocation + '\n')
+    file.close()
     print('File created at: ' + fileLocation)
     
 def addToList(list, add):
@@ -54,3 +68,15 @@ def removeTask(list, task):
             replaceLine(list, line, '')
             file.close()
             return
+
+def listAllLists():
+    file = open('lists.txt', 'r')
+    lines = file.readlines()
+    for line in lines:
+        print(line.split('\n')[0])
+    file.close()
+
+def createListList(): #create lists.txt if it doesnt exist
+    if not os.path.exists('lists.txt'):
+        file = open('lists.txt', 'x')
+        file.close()
