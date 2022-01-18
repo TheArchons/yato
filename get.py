@@ -1,16 +1,10 @@
-import sys
+import sys, json
 
-def getFile(arg):
+def getFileLocation(arg):
     try:
         return sys.argv[arg]
     except IndexError: #if no file location is given
-        print('No file location given.  Example: /home/user/yato.txt')
-        sys.exit()
-    except FileExistsError: #if file already exists
-        print('File already exists.')
-        sys.exit()
-    except PermissionError: #if file location is not writable
-        print('Permission denied.')
+        print('No file location given.  Example: /home/user/yato.json')
         sys.exit()
 
 def getTask(arg):
