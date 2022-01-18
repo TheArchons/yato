@@ -1,6 +1,6 @@
 from termcolor import colored
 import fileinput
-from replace import replaceLine
+from replace import *
 import sys
 import os
 
@@ -12,6 +12,8 @@ def help():
 def new(fileLocation):
     try:
         file = open(fileLocation, 'x')
+        #number of todos
+        file.write('0' + '\n')
         file.close()
     except FileExistsError:
         print('File already exists.')
@@ -27,6 +29,7 @@ def new(fileLocation):
 def addToList(list, add):
     file = open(list, 'a')
     file.write(add + ',incomplete' + '\n')
+    changeTODOCount(list, True)
     print(f'Task {add} added.')
     file.close()
 
@@ -34,6 +37,9 @@ def listTasks(fileLocation):
     file = open(fileLocation, 'r')
     lines = file.readlines()
     for line in reversed(lines):
+        #ignore tagless
+        if len(line.split(',')) == 1:
+            continue
         if line.split(',')[1] == 'complete\n':
             print(colored(line.split(',')[0], 'green')) #print as green if completed
         else:
@@ -66,9 +72,13 @@ def removeTask(list, task):
         if line.split(',')[0] == task:
             print(f'Task {task} removed.')
             replaceLine(list, line, '')
+            #subtract one from task count
+            changeTODOCount(list, False)
             file.close()
             return
-
+    print(f'Task {task} not found.')
+    file.close()
+    
 def listAllLists():
     file = open('lists.txt', 'r')
     lines = file.readlines()
@@ -80,7 +90,7 @@ def createListList(): #create lists.txt if it doesnt exist
     if not os.path.exists('lists.txt'):
         file = open('lists.txt', 'x')
         file.close()
-        
+
 def insertTask(list, task, find):
     file = open(list, 'r')
     lines = file.readlines()
