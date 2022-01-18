@@ -1,5 +1,6 @@
 # yato
-yato - Yet another Todo app, built in python 3
+yato - Yet another Todo app
+cli program for TODO lists
 
 # dependencies
 termcolor - install with `pip install termcolor`
