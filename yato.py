@@ -25,6 +25,8 @@ def main():
     elif getCmd() == '-ll' or getCmd() == '--list-all':#lists all lists
         listAllLists()
 
+    elif getCmd() == '-d' or getCmd() == '--delete':
+        removeList(getFileLocation(2))
     """elif getCmd() == '-i' or getCmd() == '--insert': #Insert task
         insertTask(getFileLocation(2), getTask(3), getTask(4))""" #deprecated
 main()

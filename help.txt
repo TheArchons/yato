@@ -7,3 +7,4 @@ yato - Yet another TODO
 -r      Remove from a TODO list
 -l      List TODOs in a list
 -ll     List all TODO lists
+-d      Delete a TODO list

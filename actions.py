@@ -61,6 +61,16 @@ def createListList(): #create lists.txt if it doesnt exist
     if not os.path.exists('lists.json'):
         json.dump({"lists" : []}, open('lists.json', 'w'))
 
+def removeList(listPos): #removes a TODO list
+    file = getFile('lists.json')
+    try:
+        file['lists'].remove(listPos)
+        os.remove(listPos)
+        json.dump(file, open('lists.json', 'w'))
+        print(f'List {listPos} removed.')
+    except ValueError:
+        print(f'List {listPos} not found.')
+
 """def insertTask(list, task, find):
     file = open(list, 'r')
     lines = file.readlines()
