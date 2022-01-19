@@ -19,17 +19,17 @@ def addToList(list, add):
     file = getFile(list)
     #print('loaded json') #debug
     file[add] = {'complete' : False, 'index' : file['todos']}
-    file["tasks"].append(add)
+    file["tasks"].append((add, file['todos']))
     json.dump(file, open(list, 'w'))
     print(f'Task {add} added.')
 
 def listTasks(fileLocation):
     file = getFile(fileLocation)
     for task in file['tasks']:
-        if file[task]["complete"]:
-            print(colored(task, 'green'))
+        if file[task[0]]["complete"]:
+            print(colored(task[0], 'green'))
         else:
-            print(colored(task, 'red'))
+            print(colored(task[0], 'red'))
 
 def completeTask(list, task):
     file = getFile(list)
