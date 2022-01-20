@@ -4,6 +4,13 @@ import sys
 import os
 import json
 
+def warningDataLoss():
+    print(colored('WARNING: Data will be lost.  Continue? (y/n)', 'red'))
+    if input().lower() == 'y':
+        return True
+    else:
+        return False
+
 def help():
     print("yato - yet another TODO list\n\
     -h or --help:       show this help\n\
@@ -68,6 +75,8 @@ def createListList(): #create lists.txt if it doesnt exist
         json.dump({"lists" : []}, open('lists.json', 'w'))
 
 def removeList(listPos): #removes a TODO list
+    if not warningDataLoss():
+        return
     file = getFile('lists.json')
     try:
         file['lists'].remove(listPos)
