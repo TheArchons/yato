@@ -41,7 +41,6 @@ def delTask(fileName, task):
     json.dump(file, open(fileName, 'w'))
 
 def delTasksTask(listLoc, task):
-    #BROKEN
     file = getFile(listLoc)
     for lTask in file['tasks']:
         if lTask[0] == task:

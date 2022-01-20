@@ -62,7 +62,7 @@ def createListList(): #create lists.txt if it doesnt exist
 def removeList(listPos): #removes a TODO list
     file = getFile('lists.json')
     try:
-        delTasksTask(file['lists'])
+        file['lists'].remove(listPos)
         os.remove(listPos)
         json.dump(file, open('lists.json', 'w'))
         print(f'List {listPos} removed.')
