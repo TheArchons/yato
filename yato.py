@@ -27,6 +27,8 @@ def main():
 
     elif getCmd() == '-d' or getCmd() == '--delete': #Delete list
         removeList(getFileLocation(2))
+    elif getCmd() == '-da' or getCmd() == '--date': #Add date to task
+        addDate(getFileLocation(2), getTask(3), getDate(4))
     """elif getCmd() == '-i' or getCmd() == '--insert': #Insert task
         insertTask(getFileLocation(2), getTask(3), getTask(4))""" #deprecated
 main()

@@ -70,6 +70,16 @@ def removeList(listPos): #removes a TODO list
     except ValueError:
         print(f'List {listPos} not found.')
 
+def addDate(list, task, date):
+    file = getFile(list)
+    try:
+        file[task]['date'] = [int(date[0]), int(date[1]), int(date[2])]
+        json.dump(file, open(list, 'w'))
+        date = '-'.join(date)
+        print(f'Task {task} due at {date}.')
+    except KeyError:
+        print(f'Task {task} not found.')
+
 """def insertTask(list, task, find):
     file = open(list, 'r')`
     lines = file.readlines()
