@@ -25,11 +25,12 @@ def addToList(list, add):
 
 def listTasks(fileLocation):
     file = getFile(fileLocation)
-    for task in file['tasks']:
+    for pos, task in enumerate(file['tasks']):
+        task[1] = pos+1
         if file[task[0]]["complete"]:
-            print(colored(task[0], 'green'))
+            print(colored(str(task[1]) + '. ' + task[0], 'green')) #print completed tasks green
         else:
-            print(colored(task[0], 'red'))
+            print(colored(str(task[1]) + '. ' + task[0], 'red')) #print uncompleted tasks red
 
 def completeTask(list, task):
     file = getFile(list)
