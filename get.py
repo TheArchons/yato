@@ -1,4 +1,4 @@
-import sys, json
+import sys
 
 def getFileLocation(arg):
     try:

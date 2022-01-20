@@ -27,13 +27,27 @@ def changeTODOCount(fileName, add):
         file['todos'] -= 1
     #print(file['todos']) #debug
     json.dump(file, open(fileName, 'w'))
-    #print(f'TODO count changed to {file["todos"]}.')
+    #print(f'TODO count changed to {file["todZos"]}.')
     return
 
 def listListAdd(add):
     file = getFile('lists.json')
     file['lists'].append(add)
     json.dump(file, open('lists.json', 'w'))
-    
+
+def delTask(fileName, task):
+    file = getFile(fileName)
+    del file[task]
+    json.dump(file, open(fileName, 'w'))
+
+def delTasksTask(listLoc, task):
+    #BROKEN
+    file = getFile(listLoc)
+    for lTask in file['tasks']:
+        if lTask[0] == task:
+            file['tasks'].remove(lTask)
+            break
+    json.dump(file, open(listLoc, 'w'))
+
 #TEST
 #replaceLine('test.txt', 'old', 'new')

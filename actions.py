@@ -40,15 +40,13 @@ def completeTask(list, task):
     json.dump(file, open(list, 'w'))
 
 def removeTask(list, task):
-    file = getFile(list)
     try:
-        #delete task from list
-        del file[task]
         #remove task from tasks list
-        file['tasks'].remove(task)
+        delTasksTask(list, task)
+        #delete task from list
+        delTask(list, task)
         #update todos
         changeTODOCount(list, False)
-        json.dump(file, open(list, 'w'))
     except KeyError:
         print(f'Task {task} not found.')
 
@@ -64,7 +62,7 @@ def createListList(): #create lists.txt if it doesnt exist
 def removeList(listPos): #removes a TODO list
     file = getFile('lists.json')
     try:
-        file['lists'].remove(listPos)
+        delTasksTask(file['lists'])
         os.remove(listPos)
         json.dump(file, open('lists.json', 'w'))
         print(f'List {listPos} removed.')
@@ -72,7 +70,7 @@ def removeList(listPos): #removes a TODO list
         print(f'List {listPos} not found.')
 
 """def insertTask(list, task, find):
-    file = open(list, 'r')
+    file = open(list, 'r')`
     lines = file.readlines()
     for line in reversed(lines):
         if line.split(',')[0] == find:
