@@ -5,9 +5,16 @@ import os
 import json
 
 def help():
-    helpFile = open('help.txt', 'r')
-    print(helpFile.read())
-    helpFile.close()
+    print("yato - yet another TODO list\n\
+    -h or --help:       show this help\n\
+    -n or --new:        create a new TODO list\n\
+    -a or --add:        add a task to a TODO list\n\
+    -c or --complete:   complete a task\n\
+    -r or --remove:     remove a task\n\
+    -l or --list:       list all tasks\n\
+    -ll or --list-all:  list all TODO lists\n\
+    -d or --delete:     delete a TODO list\n\
+    -da or --date:      add a date to a task\n")
 
 def new(fileLocation):
     json.dump({"todos" : 0, "tasks" : []}, open(fileLocation, 'w'))
