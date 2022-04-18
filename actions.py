@@ -107,6 +107,9 @@ def ListNameEdit(list, newName):
     file['lists'].append(newName)
     json.dump(file, open('lists.json', 'w'))
 
+def insert(list, task, pos):
+    return
+
 """def insertTask(list, task, find): #! deprecated
     file = open(list, 'r')`
     lines = file.readlines()

@@ -51,3 +51,28 @@ def test_ListNameEdit():
         os.remove('asd.txt')
     if os.path.exists('111.json'):
         os.remove('111.json')
+
+def test_insert():
+    createListList()
+    #remove json files incase they exist
+    if os.path.exists('test.json'):
+        os.remove('test.json')
+    
+    new('test.json')
+    insert('test.json', 'task', '1')
+    assert json.loads(open('test.json').read())['tasks'][0] == 'task'
+
+    insert('test.json', 'task2', '2')
+    assert json.loads(open('test.json').read())['tasks'][1] == 'task2'
+
+    insert('test.json', 'task1', '2')
+    assert (json.loads(open('test.json').read())['tasks'][1] == 'task1') and (json.loads(open('test.json').read())['tasks'][2] == 'task2')
+
+    temp = json.loads(open('test.json').read())['tasks']
+
+    insert('test.json', 'task3', '5')
+    assert json.loads(open('test.json').read())['tasks'] == temp # should not change the list
+
+    #cleanup
+    if os.path.exists('test.json'):
+        os.remove('test.json')
