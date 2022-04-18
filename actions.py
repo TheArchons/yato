@@ -21,7 +21,8 @@ def help():
     -l or --list:       list all tasks\n\
     -ll or --list-all:  list all TODO lists\n\
     -d or --delete:     delete a TODO list\n\
-    -da or --date:      add a date to a task\n")
+    -da or --date:      add a date to a task\n\
+    -e or --edit:       edit a TODO list's name\n")
 
 def new(fileLocation):
     json.dump({"todos" : 0, "tasks" : []}, open(fileLocation, 'w'))
@@ -96,7 +97,10 @@ def addDate(list, task, date):
     except KeyError:
         print(f'Task {task} not found.')
 
-"""def insertTask(list, task, find):
+def ListNameEdit(list, newName):
+    return
+
+"""def insertTask(list, task, find): #! deprecated
     file = open(list, 'r')`
     lines = file.readlines()
     for line in reversed(lines):
