@@ -18,11 +18,11 @@ def test_ListNameEdit():
 
     ListNameEdit('test.json', 'test2.json')
     assert os.path.exists('test2.json')
-    assert ('tests2.json' in json.loads(open('lists.json').read())['lists']) and not ('test.json' in json.loads(open('lists.json').read())['lists'])
+    assert ('test2.json' in json.loads(open('lists.json').read())['lists']) and not ('test.json' in json.loads(open('lists.json').read())['lists'])
 
     ListNameEdit('test2.json', 'test2.json')
     assert os.path.exists('test2.json')
-    assert ('tests2.json' in json.loads(open('lists.json').read())['lists'])
+    assert ('test2.json' in json.loads(open('lists.json').read())['lists'])
 
     ListNameEdit('test2.json', 'asd.txt')
     assert os.path.exists('asd.txt')
