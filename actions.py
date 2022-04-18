@@ -98,7 +98,14 @@ def addDate(list, task, date):
         print(f'Task {task} not found.')
 
 def ListNameEdit(list, newName):
-    return
+    os.rename(list, newName)
+    file = getFile('lists.json')
+    try:
+        file['lists'].remove(list)
+    except:
+        pass
+    file['lists'].append(newName)
+    json.dump(file, open('lists.json', 'w'))
 
 """def insertTask(list, task, find): #! deprecated
     file = open(list, 'r')`
