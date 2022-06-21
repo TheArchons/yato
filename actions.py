@@ -32,7 +32,6 @@ def new(fileLocation):
 def addToList(list, add):
     changeTODOCount(list, True)
     file = getFile(list)
-    #print('loaded json') #debug
     file[add] = {'complete' : False, 'index' : file['todos']}
     file["tasks"].append((add, file['todos']))
     json.dump(file, open(list, 'w'))
@@ -71,7 +70,7 @@ def listAllLists():
     for list in file['lists']:
         print(list)
 
-def createListList(): #create lists.txt if it doesnt exist
+def createListList(): #create lists.txt if it doesn't exist
     if not os.path.exists('lists.json'):
         json.dump({"lists" : []}, open('lists.json', 'w'))
 
@@ -106,15 +105,3 @@ def ListNameEdit(list, newName):
         pass
     file['lists'].append(newName)
     json.dump(file, open('lists.json', 'w'))
-
-"""def insertTask(list, task, find): #! deprecated
-    file = open(list, 'r')`
-    lines = file.readlines()
-    for line in reversed(lines):
-        if line.split(',')[0] == find:
-            print(f'Task {task} inserted after {find}.')
-            replaceLine(list, line, task + ',' + 'incomplete' + '\n' + line)
-            file.close()
-            return
-    print(f'Task {find} not found.')
-    file.close()"""

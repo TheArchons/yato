@@ -1,14 +1,5 @@
 import json, sys
 
-"""def replaceLine(fileName, oldText, text):
-    with open(fileName, 'r') as file:
-        lines = file.readlines()
-    with open(fileName, 'w') as file:
-        for line in lines:
-            if oldText in line:
-                line = line.replace(oldText, text)
-            file.write(line)""" #not required
-
 def getFile(filePos):
     try:
         return json.load(open(filePos))
@@ -25,9 +16,7 @@ def changeTODOCount(fileName, add):
         file['todos'] += 1
     else:
         file['todos'] -= 1
-    #print(file['todos']) #debug
     json.dump(file, open(fileName, 'w'))
-    #print(f'TODO count changed to {file["todZos"]}.')
     return
 
 def listListAdd(add):
@@ -47,6 +36,3 @@ def delTasksTask(listLoc, task):
             file['tasks'].remove(lTask)
             break
     json.dump(file, open(listLoc, 'w'))
-
-#TEST
-#replaceLine('test.txt', 'old', 'new')
