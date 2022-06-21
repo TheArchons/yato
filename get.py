@@ -14,6 +14,13 @@ def getTask(arg):
         print('No task given.')
         sys.exit()
 
+def getNewName(arg):
+    try:
+        return sys.argv[arg]
+    except IndexError: #if no new name is given
+        print('No new name given.')
+        sys.exit()
+
 def getCmd():
     try:
         return sys.argv[1]
