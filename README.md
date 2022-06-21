@@ -5,4 +5,7 @@ yato - Yet another Todo app, a cli program for TODO lists
 use `pip install -r requirements.txt` in the yato directory
 
 # installation
-I will add this to pip in the future, but simply clone the repo and run `python /directory/to/yato.py` for now
+I will add this to pip in the future. For now, \
+1. clone the source code
+2. run `pip install -r requirements.txt`
+3. run `python yato.py` to start the app
