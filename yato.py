@@ -33,6 +33,6 @@ def main():
     
     elif getCmd() == '-e' or getCmd() == '--edit': #Edit list name
         ListNameEdit(getFileLocation(2), getNewName(3))
-    """elif getCmd() == '-i' or getCmd() == '--insert': #Insert task
-        insertTask(getFileLocation(2), getTask(3), getTask(4))""" #deprecated
+    elif getCmd() == '-i' or getCmd() == '--insert': #Insert task
+        insert(getFileLocation(2), getTask(3), getuInt(4))
 main()
