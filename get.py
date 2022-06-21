@@ -46,3 +46,15 @@ def getDate(arg):
     except IndexError: #if no date is given
         print('No date given.')
         sys.exit()
+
+def getuInt(arg):
+    try:
+        integer = int(sys.argv[arg])
+        if integer > 0:
+            return integer
+        else:
+            print('Invalid integer, must be positive.')
+            sys.exit()
+    except ValueError:
+        print('Invalid, please enter a number.')
+        sys.exit()
