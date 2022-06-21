@@ -22,7 +22,8 @@ def help():
     -ll or --list-all:  list all TODO lists\n\
     -d or --delete:     delete a TODO list\n\
     -da or --date:      add a date to a task\n\
-    -e or --edit:       edit a TODO list's name\n")
+    -e or --edit:       edit a TODO list's name\n\
+    -i or --insert:     insert a task into a TODO list\n")
 
 def new(fileLocation):
     json.dump({"todos" : 0, "tasks" : []}, open(fileLocation, 'w'))
@@ -71,7 +72,7 @@ def listAllLists():
     for list in file['lists']:
         print(list)
 
-def createListList(): #create lists.txt if it doesnt exist
+def createListList(): #create lists.txt if it doesn't exist
     if not os.path.exists('lists.json'):
         json.dump({"lists" : []}, open('lists.json', 'w'))
 
@@ -107,6 +108,30 @@ def ListNameEdit(list, newName):
     file['lists'].append(newName)
     json.dump(file, open('lists.json', 'w'))
 
+def insert(list, task, pos):
+    file = getFile(list)
+    #find highest index
+    highest = 0
+    for listTask in file['tasks']:
+        if listTask[1] > highest:
+            highest = listTask[1]
+    if pos > highest+1:
+        return print('Position too high.')
+    #move up tasks in list that are greater or equal to pos
+    firstPos = -1
+    for fileTask in file['tasks']:
+        if fileTask[1] >= pos:
+            if firstPos == -1:
+                firstPos = fileTask[1]
+            fileTask[1] += 1
+    #insert task into list
+    if firstPos == -1:
+        file['tasks'].insert(len(file['tasks'])+1, [task, pos])
+    else:
+        file['tasks'].insert(firstPos-1, [task, pos])
+    file[task] = {'complete' : False, 'index' : pos}
+    json.dump(file, open(list, 'w'))
+    
 """def insertTask(list, task, find): #! deprecated
     file = open(list, 'r')`
     lines = file.readlines()

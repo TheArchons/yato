@@ -3,7 +3,9 @@ from actions import *
 import os
 
 def test_ListNameEdit():
-    createListList()  # create lists.json if it doesn't exist
+    if os.path.exists('lists.json'):
+        os.remove('lists.json')
+    createListList()
     #remove json files incase they exist
     if os.path.exists('test.json'):
         os.remove('test.json')
@@ -51,3 +53,37 @@ def test_ListNameEdit():
         os.remove('asd.txt')
     if os.path.exists('111.json'):
         os.remove('111.json')
+    if os.path.exists('lists.json'):
+        os.remove('lists.json')
+
+def test_insert():
+    if os.path.exists('lists.json'):
+        os.remove('lists.json')
+    createListList()
+    #remove json files incase they exist
+    if os.path.exists('test.json'):
+        os.remove('test.json')
+    
+    new('test.json')
+    insert('test.json', 'task', 1)
+    assert json.loads(open('test.json').read())['tasks'][0] == ['task', 1]
+
+    insert('test.json', 'task2', 2)
+    
+    assert json.loads(open('test.json').read())['tasks'][1] == ['task2', 2]
+
+    insert('test.json', 'task1', 2)
+    
+    assert (json.loads(open('test.json').read())['tasks'][0] == ['task', 1]) and (json.loads(open('test.json').read())['tasks'][1] == ['task1', 2]) and (json.loads(open('test.json').read())['tasks'][2] == ['task2', 3])
+
+    temp = json.loads(open('test.json').read())['tasks']
+
+    insert('test.json', 'task3', 5)
+    assert json.loads(open('test.json').read())['tasks'] == temp # should not change the list
+
+    #cleanup
+    if os.path.exists('test.json'):
+        os.remove('test.json')
+    
+    if os.path.exists('lists.json'):
+        os.remove('lists.json')
