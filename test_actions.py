@@ -128,3 +128,18 @@ def test_changeListListPath():
         os.remove('lists.json')
     if os.path.exists(path):
         os.remove(path)
+
+def test_createConfig():
+    if os.path.exists('config.ini'): # check if file exists and remove it if it does
+        os.remove('config.ini')
+    createConfig() # create config file
+    assert os.path.exists('config.ini') # check if config file exists
+
+    temp = open('config.ini').read() # read config file
+    createConfig() # create config file (should not change the file)
+    assert temp == open('config.ini').read() # check if config file contents remain the same
+
+    # cleanup
+    if os.path.exists('config.ini'):
+        os.remove('config.ini')
+

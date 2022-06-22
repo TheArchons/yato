@@ -135,3 +135,9 @@ def insert(list, task, pos):
 def changeListListPath(newPath):
     return
 
+def createConfig():
+    if not os.path.exists('config.ini'):
+        with open('config.ini', 'w') as config:
+            config.write('[paths]\n')
+            config.write("lists_path = 'lists.json' \n")
+
