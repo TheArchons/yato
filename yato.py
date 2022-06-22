@@ -3,7 +3,8 @@ from get import *
 import os
 
 def main():
-    createListList() #create lists.txt if it doesnt exist
+    createConfig() # create config.ini if it doesn't exist
+    createListList() # create lists.txt if it doesn't exist
     if getCmd() == '-h' or getCmd() == '--help': #help at help.txt
         help()
         
@@ -33,6 +34,11 @@ def main():
     
     elif getCmd() == '-e' or getCmd() == '--edit': #Edit list name
         ListNameEdit(getFileLocation(2), getNewName(3))
+
     elif getCmd() == '-i' or getCmd() == '--insert': #Insert task
         insert(getFileLocation(2), getTask(3), getuInt(4))
+    
+    elif getCmd() == '-cll' or getCmd() == '--change-list-list':
+        changeListListPath(getFileLocation(2))
+    
 main()

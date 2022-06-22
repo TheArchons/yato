@@ -3,6 +3,7 @@ from JSONManip import *
 import sys
 import os
 import json
+import configparser
 
 def warningDataLoss():
     print(colored('WARNING: Data will be lost.  Continue? (y/n)', 'red'))
@@ -23,7 +24,8 @@ def help():
     -d or --delete:     delete a TODO list\n\
     -da or --date:      add a date to a task\n\
     -e or --edit:       edit a TODO list's name\n\
-    -i or --insert:     insert a task into a TODO list\n")
+    -i or --insert:     insert a task into a TODO list\n\
+    -cll or --change-list-list: change the location of the list of lists file\n")
 
 def new(fileLocation):
     json.dump({"todos" : 0, "tasks" : []}, open(fileLocation, 'w'))
@@ -72,7 +74,12 @@ def listAllLists():
         print(list)
 
 def createListList(): #create lists.txt if it doesn't exist
-    if not os.path.exists('lists.json'):
+    # open config.ini
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    # create lists.txt if it doesn't exist
+    if not os.path.exists(config['paths']['lists']):
         json.dump({"lists" : []}, open('lists.json', 'w'))
 
 def removeList(listPos): #removes a TODO list
@@ -130,3 +137,25 @@ def insert(list, task, pos):
         file['tasks'].insert(firstPos-1, [task, pos])
     file[task] = {'complete' : False, 'index' : pos}
     json.dump(file, open(list, 'w'))
+
+def changeListListPath(newPath):
+    # open config.ini
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    # change path
+    oldPath = config['paths']['lists']
+    config['paths']['lists'] = newPath
+
+    # write config.ini
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
+    
+    # move file
+    os.renames(oldPath, newPath)
+
+def createConfig():
+    if not os.path.exists('config.ini'):
+        with open('config.ini', 'w') as config:
+            config.write('[paths]\n')
+            config.write("lists = lists.json \n")
