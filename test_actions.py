@@ -4,6 +4,11 @@ import os
 from pathlib import Path
 
 def test_ListNameEdit():
+    # create config
+    if os.path.exists('config.ini'):
+        os.remove('config.ini')
+    createConfig()
+
     if os.path.exists('lists.json'):
         os.remove('lists.json')
     createListList()
@@ -48,19 +53,32 @@ def test_ListNameEdit():
     #cleanup
     if os.path.exists('test.json'):
         os.remove('test.json')
+        
     if os.path.exists('test2.json'):
         os.remove('test2.json')
+
     if os.path.exists('asd.txt'):
         os.remove('asd.txt')
+
     if os.path.exists('111.json'):
         os.remove('111.json')
+        
     if os.path.exists('lists.json'):
         os.remove('lists.json')
 
+    if os.path.exists('config.ini'):
+        os.remove('config.ini')
+
 def test_insert():
+    # create config
+    if os.path.exists('config.ini'):
+        os.remove('config.ini')
+    createConfig()
+
     if os.path.exists('lists.json'):
         os.remove('lists.json')
     createListList()
+
     #remove json files incase they exist
     if os.path.exists('test.json'):
         os.remove('test.json')
@@ -89,15 +107,19 @@ def test_insert():
     if os.path.exists('lists.json'):
         os.remove('lists.json')
 
+    if os.path.exists('config.ini'):
+        os.remove('config.ini')
+
 def test_changeListListPath():
     sep = os.path.sep
-    if os.path.exists('lists.json'):
-        os.remove('lists.json')
-    createListList()
-
+    # create config
     if os.path.exists('config.ini'):
         os.remove('config.ini')
     createConfig()
+
+    if os.path.exists('lists.json'):
+        os.remove('lists.json')
+    createListList()
 
     # Create 2 lists
     new('test.json')
@@ -129,19 +151,27 @@ def test_changeListListPath():
     # cleanup
     if os.path.exists('listOfLists'):
         os.rmdir('listOfLists')
+
     if os.path.exists('lists.json'):
         os.remove('lists.json')
+
     if os.path.exists(path):
         os.remove(path)
+
     if os.path.exists('test.json'):
         os.remove('test.json')
+
     if os.path.exists('test2.json'):
         os.remove('test2.json')
+
+    if os.path.exists('config.ini'):
+        os.remove('config.ini')
 
 def test_createConfig():
     if os.path.exists('config.ini'): # check if file exists and remove it if it does
         os.remove('config.ini')
     createConfig() # create config file
+
     assert os.path.exists('config.ini') # check if config file exists
 
     temp = open('config.ini').read() # read config file
