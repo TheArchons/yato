@@ -37,5 +37,8 @@ def main():
 
     elif getCmd() == '-i' or getCmd() == '--insert': #Insert task
         insert(getFileLocation(2), getTask(3), getuInt(4))
-        
+    
+    elif getCmd() == '-cll' or getCmd() == '--change-list-list':
+        changeListListPath(getFileLocation(2))
+    
 main()
