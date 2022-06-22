@@ -1,6 +1,6 @@
 .vscode
 .pytest_cache
 .benchmarks
-.__pycache__
-.lists.json
-.config.ini
+__pycache__
+lists.json
+config.ini
