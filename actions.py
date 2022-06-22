@@ -3,6 +3,7 @@ from JSONManip import *
 import sys
 import os
 import json
+import configparser
 
 def warningDataLoss():
     print(colored('WARNING: Data will be lost.  Continue? (y/n)', 'red'))
@@ -133,11 +134,23 @@ def insert(list, task, pos):
     json.dump(file, open(list, 'w'))
 
 def changeListListPath(newPath):
-    return
+    # open config.ini
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    # change path
+    oldPath = config['paths']['lists']
+    config['paths']['lists'] = newPath
+
+    # write config.ini
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
+    
+    # move file
+    os.renames(oldPath, newPath)
 
 def createConfig():
     if not os.path.exists('config.ini'):
         with open('config.ini', 'w') as config:
             config.write('[paths]\n')
-            config.write("lists_path = 'lists.json' \n")
-
+            config.write("lists = lists.json \n")

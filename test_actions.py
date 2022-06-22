@@ -90,9 +90,14 @@ def test_insert():
         os.remove('lists.json')
 
 def test_changeListListPath():
+    sep = os.path.sep
     if os.path.exists('lists.json'):
         os.remove('lists.json')
     createListList()
+
+    if os.path.exists('config.ini'):
+        os.remove('config.ini')
+    createConfig()
 
     # Create 2 lists
     new('test.json')
@@ -103,19 +108,19 @@ def test_changeListListPath():
     addToList('test2.json', 'task2')
 
     # change path of listList
-    changeListListPath('listList/listOfLists.json')
-    assert(os.path.exists('listList/listOfLists.json')) # check if file exists
+    changeListListPath('listList' + sep + 'listOfLists.json')
+    assert(os.path.exists('listList' + sep + 'listOfLists.json')) # check if file exists
     assert(not os.path.exists('lists.json')) # check if file was deleted
 
     # check if the lists file's contents remain the same
-    assert('test.json' in json.loads(open('listList/listOfLists.json').read())['lists'])
-    assert('test2.json' in json.loads(open('listList/listOfLists.json').read())['lists'])
+    assert('test.json' in json.loads(open('listList' + sep + 'listOfLists.json').read())['lists'])
+    assert('test2.json' in json.loads(open('listList' + sep + 'listOfLists.json').read())['lists'])
 
     # move the lists file to home directory
     path = str(Path.home()) + os.path.sep + 'lists.json'
-    changeListListPath(path) # os.path.sep is the path separator, usually / or \
-    assert(os.path.exists('lists.json')) # check if file exists
-    assert(not os.path.exists('listList/listOfLists.json')) # check if file was deleted
+    changeListListPath(path) # os.path.sep is the path separator, usually ' + sep + ' or \
+    assert(os.path.exists(path)) # check if file exists
+    assert(not os.path.exists('listList' + sep + 'listOfLists.json')) # check if file was deleted
 
     # check if the lists file's contents remain the same
     assert('test.json' in json.loads(open(path).read())['lists'])
@@ -128,6 +133,10 @@ def test_changeListListPath():
         os.remove('lists.json')
     if os.path.exists(path):
         os.remove(path)
+    if os.path.exists('test.json'):
+        os.remove('test.json')
+    if os.path.exists('test2.json'):
+        os.remove('test2.json')
 
 def test_createConfig():
     if os.path.exists('config.ini'): # check if file exists and remove it if it does
