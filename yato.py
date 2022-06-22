@@ -3,8 +3,8 @@ from get import *
 import os
 
 def main():
+    createConfig() # create config.ini if it doesn't exist
     createListList() # create lists.txt if it doesn't exist
-    createConfig() # create config.txt if it doesn't exist
     if getCmd() == '-h' or getCmd() == '--help': #help at help.txt
         help()
         

@@ -75,7 +75,12 @@ def listAllLists():
         print(list)
 
 def createListList(): #create lists.txt if it doesn't exist
-    if not os.path.exists('lists.json'):
+    # open config.ini
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    # create lists.txt if it doesn't exist
+    if not os.path.exists(config['paths']['lists']):
         json.dump({"lists" : []}, open('lists.json', 'w'))
 
 def removeList(listPos): #removes a TODO list
