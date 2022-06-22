@@ -131,3 +131,7 @@ def insert(list, task, pos):
         file['tasks'].insert(firstPos-1, [task, pos])
     file[task] = {'complete' : False, 'index' : pos}
     json.dump(file, open(list, 'w'))
+
+def changeListListPath(newPath):
+    return
+

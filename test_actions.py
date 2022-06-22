@@ -1,6 +1,7 @@
 import pytest
 from actions import *
 import os
+from pathlib import Path
 
 def test_ListNameEdit():
     if os.path.exists('lists.json'):
@@ -87,3 +88,43 @@ def test_insert():
     
     if os.path.exists('lists.json'):
         os.remove('lists.json')
+
+def test_changeListListPath():
+    if os.path.exists('lists.json'):
+        os.remove('lists.json')
+    createListList()
+
+    # Create 2 lists
+    new('test.json')
+    new('test2.json')
+
+    # add tasks to lists
+    addToList('test.json', 'task')
+    addToList('test2.json', 'task2')
+
+    # change path of listList
+    changeListListPath('listList/listOfLists.json')
+    assert(os.path.exists('listList/listOfLists.json')) # check if file exists
+    assert(not os.path.exists('lists.json')) # check if file was deleted
+
+    # check if the lists file's contents remain the same
+    assert('test.json' in json.loads(open('listList/listOfLists.json').read())['lists'])
+    assert('test2.json' in json.loads(open('listList/listOfLists.json').read())['lists'])
+
+    # move the lists file to home directory
+    path = str(Path.home()) + os.path.sep + 'lists.json'
+    changeListListPath(path) # os.path.sep is the path separator, usually / or \
+    assert(os.path.exists('lists.json')) # check if file exists
+    assert(not os.path.exists('listList/listOfLists.json')) # check if file was deleted
+
+    # check if the lists file's contents remain the same
+    assert('test.json' in json.loads(open(path).read())['lists'])
+    assert('test2.json' in json.loads(open(path).read())['lists'])
+
+    # cleanup
+    if os.path.exists('listOfLists'):
+        os.rmdir('listOfLists')
+    if os.path.exists('lists.json'):
+        os.remove('lists.json')
+    if os.path.exists(path):
+        os.remove(path)
