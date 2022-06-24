@@ -3,6 +3,7 @@ import pytest
 from actions import *
 import os
 from pathlib import Path
+from shutil import rmtree
 
 @pytest.fixture(autouse=True)
 def setup_teardown():
@@ -27,6 +28,15 @@ def setup_teardown():
     if os.path.exists('111.json'):
         os.remove('111.json')
 
+    if os.path.exists('listOfLists'):
+        rmtree('listOfLists')
+    
+    if os.path.exists('testMoved.json'):
+        os.remove('testMoved.json')
+
+    if os.path.exists('lists'):
+        rmtree('lists')
+
     if os.path.exists(str(Path.home()) + os.path.sep + 'lists.json'):
         os.remove(str(Path.home()) + os.path.sep + 'lists.json')
 
@@ -34,38 +44,28 @@ def setup_teardown():
 
     # teardown
     if os.path.exists('test.json'):
-        open('test.json', 'w').close()
         os.remove('test.json')
         
     if os.path.exists('test2.json'):
-        open('test2.json', 'w').close()
         os.remove('test2.json')
 
     if os.path.exists('asd.txt'):
-        open('asd.txt', 'w').close()
         os.remove('asd.txt')
 
     if os.path.exists('111.json'):
-        open('111.json', 'w').close()
         os.remove('111.json')
         
     if os.path.exists('lists.json'):
-        open('lists.json', 'w').close()
         os.remove('lists.json')
 
     if os.path.exists('config.ini'):
-        open('config.ini', 'w').close()
         os.remove('config.ini')
 
     if os.path.exists('listOfLists'):
-        open('listOfLists', 'w').close()
-        os.rmdir('listOfLists')
-    
-    if os.path.exists('test.txt'):
-        open('test.txt', 'w').close()
-        os.remove('test.txt')
+        rmtree('listOfLists')
 
-    
+    if os.path.exists('testMoved.json'):
+        os.remove('testMoved.json')
 
 def test_ListNameEdit():
     open('test.json', 'w').close()
@@ -148,3 +148,40 @@ def test_createConfig():
     temp = open('config.ini').read() # read config file
     createConfig() # create config file (should not change the file)
     assert temp == open('config.ini').read() # check if config file contents remain the same
+
+def test_changeListPath():
+    # create list
+    new('test.json')
+
+    # add task to lists
+    addToList('test.json', 'task')
+
+    # move and assert
+    # save test.json as a variable
+    temp = json.loads(open('test.json').read())
+    # change path of list
+    changeListPath('test.json', 'testMoved.json')
+    # assert
+    assert os.path.exists('testMoved.json')\
+         and not os.path.exists('test.json')\
+         and json.loads(open('testMoved.json').read()) == temp # check if file exists and contents are the same
+
+    # move to folder lists and assert
+    # save list as variable
+    temp = json.loads(open('testMoved.json').read())
+    # change path of list
+    changeListPath('testMoved.json', 'lists' + os.path.sep + 'testMoved.json')
+    # assert
+    assert os.path.exists('lists' + os.path.sep + 'testMoved.json')\
+        and not os.path.exists('testMoved.json')\
+        and json.loads(open('lists' + os.path.sep + 'testMoved.json').read()) == temp # check if file exists and contents are the same
+
+    # move to root directory and assert
+    # save list as variable
+    temp = json.loads(open('lists' + os.path.sep + 'testMoved.json').read())
+    # change path of list
+    changeListPath('lists' + os.path.sep + 'testMoved.json', str(Path.home()) + os.path.sep + 'testMoved.json')
+    # assert
+    assert os.path.exists(str(Path.home()) + os.path.sep + 'testMoved.json')\
+        and not os.path.exists('lists' + os.path.sep + 'testMoved.json')\
+        and json.loads(open(str(Path.home()) + os.path.sep + 'testMoved.json').read()) == temp # check if file exists and contents are the same

@@ -159,3 +159,6 @@ def createConfig():
         with open('config.ini', 'w') as config:
             config.write('[paths]\n')
             config.write("lists = lists.json \n")
+
+def changeListPath(oldPath, newPath):
+    return # TODO
