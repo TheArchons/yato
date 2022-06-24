@@ -1,6 +1,13 @@
-.vscode
+# cache
 .pytest_cache
-.benchmarks
 __pycache__
+
+# vscode settings
+.vscode
+
+# pytest-benchmark
+.benchmarks
+
+# file created by yato
 lists.json
 config.ini
