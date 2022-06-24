@@ -25,7 +25,7 @@ def help():
     -da or --date:      add a date to a task\n\
     -e or --edit:       edit a TODO list's name\n\
     -i or --insert:     insert a task into a TODO list\n\
-    -cll or --change-list-list: change the location of the list of lists file\n")
+    -cll or --change-list-list:     change the location of the list of lists file\n")
 
 def new(fileLocation):
     json.dump({"todos" : 0, "tasks" : []}, open(fileLocation, 'w'))
