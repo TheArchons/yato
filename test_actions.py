@@ -1,27 +1,73 @@
+from re import L
 import pytest
 from actions import *
 import os
 from pathlib import Path
 
-def test_ListNameEdit():
-    # create config
+@pytest.fixture(autouse=True)
+def setup_teardown():
+    # setup
     if os.path.exists('config.ini'):
         os.remove('config.ini')
     createConfig()
-
     if os.path.exists('lists.json'):
         os.remove('lists.json')
     createListList()
+
     #remove json files incase they exist
     if os.path.exists('test.json'):
         os.remove('test.json')
+
     if os.path.exists('test2.json'):
         os.remove('test2.json')
+
     if os.path.exists('asd.txt'):
         os.remove('asd.txt')
+
     if os.path.exists('111.json'):
         os.remove('111.json')
 
+    if os.path.exists(str(Path.home()) + os.path.sep + 'lists.json'):
+        os.remove(str(Path.home()) + os.path.sep + 'lists.json')
+
+    yield # runs tests
+
+    # teardown
+    if os.path.exists('test.json'):
+        open('test.json', 'w').close()
+        os.remove('test.json')
+        
+    if os.path.exists('test2.json'):
+        open('test2.json', 'w').close()
+        os.remove('test2.json')
+
+    if os.path.exists('asd.txt'):
+        open('asd.txt', 'w').close()
+        os.remove('asd.txt')
+
+    if os.path.exists('111.json'):
+        open('111.json', 'w').close()
+        os.remove('111.json')
+        
+    if os.path.exists('lists.json'):
+        open('lists.json', 'w').close()
+        os.remove('lists.json')
+
+    if os.path.exists('config.ini'):
+        open('config.ini', 'w').close()
+        os.remove('config.ini')
+
+    if os.path.exists('listOfLists'):
+        open('listOfLists', 'w').close()
+        os.rmdir('listOfLists')
+    
+    if os.path.exists('test.txt'):
+        open('test.txt', 'w').close()
+        os.remove('test.txt')
+
+    
+
+def test_ListNameEdit():
     open('test.json', 'w').close()
 
     ListNameEdit('test.json', 'test2.json')
@@ -48,40 +94,7 @@ def test_ListNameEdit():
     assert os.path.exists('test.json')
     assert ('test.json' in json.loads(open('lists.json').read())['lists']) and not ('111.json' in json.loads(open('lists.json').read())['lists'])
 
-    os.remove('test.json')
-
-    #cleanup
-    if os.path.exists('test.json'):
-        os.remove('test.json')
-        
-    if os.path.exists('test2.json'):
-        os.remove('test2.json')
-
-    if os.path.exists('asd.txt'):
-        os.remove('asd.txt')
-
-    if os.path.exists('111.json'):
-        os.remove('111.json')
-        
-    if os.path.exists('lists.json'):
-        os.remove('lists.json')
-
-    if os.path.exists('config.ini'):
-        os.remove('config.ini')
-
 def test_insert():
-    # create config
-    if os.path.exists('config.ini'):
-        os.remove('config.ini')
-    createConfig()
-
-    if os.path.exists('lists.json'):
-        os.remove('lists.json')
-    createListList()
-
-    #remove json files incase they exist
-    if os.path.exists('test.json'):
-        os.remove('test.json')
     
     new('test.json')
     insert('test.json', 'task', 1)
@@ -100,26 +113,8 @@ def test_insert():
     insert('test.json', 'task3', 5)
     assert json.loads(open('test.json').read())['tasks'] == temp # should not change the list
 
-    #cleanup
-    if os.path.exists('test.json'):
-        os.remove('test.json')
-    
-    if os.path.exists('lists.json'):
-        os.remove('lists.json')
-
-    if os.path.exists('config.ini'):
-        os.remove('config.ini')
-
 def test_changeListListPath():
     sep = os.path.sep
-    # create config
-    if os.path.exists('config.ini'):
-        os.remove('config.ini')
-    createConfig()
-
-    if os.path.exists('lists.json'):
-        os.remove('lists.json')
-    createListList()
 
     # Create 2 lists
     new('test.json')
@@ -148,37 +143,8 @@ def test_changeListListPath():
     assert('test.json' in json.loads(open(path).read())['lists'])
     assert('test2.json' in json.loads(open(path).read())['lists'])
 
-    # cleanup
-    if os.path.exists('listOfLists'):
-        os.rmdir('listOfLists')
-
-    if os.path.exists('lists.json'):
-        os.remove('lists.json')
-
-    if os.path.exists(path):
-        os.remove(path)
-
-    if os.path.exists('test.json'):
-        os.remove('test.json')
-
-    if os.path.exists('test2.json'):
-        os.remove('test2.json')
-
-    if os.path.exists('config.ini'):
-        os.remove('config.ini')
-
 def test_createConfig():
-    if os.path.exists('config.ini'): # check if file exists and remove it if it does
-        os.remove('config.ini')
-    createConfig() # create config file
-
     assert os.path.exists('config.ini') # check if config file exists
-
     temp = open('config.ini').read() # read config file
     createConfig() # create config file (should not change the file)
     assert temp == open('config.ini').read() # check if config file contents remain the same
-
-    # cleanup
-    if os.path.exists('config.ini'):
-        os.remove('config.ini')
-
