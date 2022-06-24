@@ -122,7 +122,10 @@ def addDate(list, task, date):
 def ListNameEdit(list, newName):
     os.rename(list, newName)
     file = getFile('lists.json')
-    file['lists'].remove(list)
+    try:
+        file['lists'].remove(list)
+    except ValueError:
+        pass
     file['lists'].append(newName)
     json.dump(file, open('lists.json', 'w'))
 
