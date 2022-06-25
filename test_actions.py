@@ -10,73 +10,45 @@ from shutil import rmtree
 @pytest.fixture(autouse=True)
 def setup_teardown():
     # setup
-    if os.path.exists('config.ini'):
-        os.remove('config.ini')
-    createConfig()
-    if os.path.exists('lists.json'):
-        os.remove('lists.json')
-    createListList()
+    removeFiles = [
+        'config.ini',
+        'lists.json',
+        'test.json',
+        'test2.json',
+        'asd.txt',
+        '111.json',
+        'testMoved.json',
+        str(Path.home()) + os.path.sep + 'lists.json',
+        str(Path.home()) + os.path.sep + 'testMoved.json'
+    ]
+    removePaths = [
+        'listOfLists',
+        'lists',
+    ]
 
     # remove json files incase they exist
-    if os.path.exists('test.json'):
-        os.remove('test.json')
+    for file in removeFiles:
+        if os.path.exists(file):
+            os.remove(file)
+    # remove directories incase they exist
+    for path in removePaths:
+        print(path)
+        if os.path.exists(path):
+            rmtree(path)
 
-    if os.path.exists('test2.json'):
-        os.remove('test2.json')
-
-    if os.path.exists('asd.txt'):
-        os.remove('asd.txt')
-
-    if os.path.exists('111.json'):
-        os.remove('111.json')
-
-    if os.path.exists('listOfLists'):
-        rmtree('listOfLists')
-
-    if os.path.exists('testMoved.json'):
-        os.remove('testMoved.json')
-
-    if os.path.exists('lists'):
-        rmtree('lists')
-
-    if os.path.exists(str(Path.home()) + os.path.sep + 'lists.json'):
-        os.remove(str(Path.home()) + os.path.sep + 'lists.json')
-
-    if os.path.exists(str(Path.home()) + os.path.sep + 'testMoved.json'):
-        os.remove(str(Path.home()) + os.path.sep + 'testMoved.json')
+    createConfig()
+    createListList()
 
     yield  # runs tests
 
     # teardown
-    if os.path.exists('test.json'):
-        os.remove('test.json')
+    for file in removeFiles:
+        if os.path.exists(file):
+            os.remove(file)
+    for path in removePaths:
 
-    if os.path.exists('test2.json'):
-        os.remove('test2.json')
-
-    if os.path.exists('asd.txt'):
-        os.remove('asd.txt')
-
-    if os.path.exists('111.json'):
-        os.remove('111.json')
-
-    if os.path.exists('lists.json'):
-        os.remove('lists.json')
-
-    if os.path.exists('config.ini'):
-        os.remove('config.ini')
-
-    if os.path.exists('listOfLists'):
-        rmtree('listOfLists')
-
-    if os.path.exists('testMoved.json'):
-        os.remove('testMoved.json')
-
-    if os.path.exists(str(Path.home()) + os.path.sep + 'testMoved.json'):
-        os.remove(str(Path.home()) + os.path.sep + 'testMoved.json')
-
-    if os.path.exists(str(Path.home()) + os.path.sep + 'lists.json'):
-        os.remove(str(Path.home()) + os.path.sep + 'lists.json')
+        if os.path.exists(path):
+            rmtree(path)
 
 
 def test_ListNameEdit():
