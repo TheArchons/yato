@@ -25,7 +25,8 @@ def help():
     -da or --date:      add a date to a task\n\
     -e or --edit:       edit a TODO list's name\n\
     -i or --insert:     insert a task into a TODO list\n\
-    -cll or --change-list-list:     change the location of the list of lists file\n")
+    -cll or --change-list-list:     change the location of the list of lists file\n\
+    -cl or --change-list:     change the location of a TODO list\n")
 
 def new(fileLocation):
     json.dump({"todos" : 0, "tasks" : []}, open(fileLocation, 'w'))
@@ -154,6 +155,8 @@ def changeListListPath(newPath):
     # move file
     os.renames(oldPath, newPath)
 
+    print('List list file location changed.')
+
 def createConfig():
     if not os.path.exists('config.ini'):
         with open('config.ini', 'w') as config:
@@ -166,12 +169,13 @@ def changeListPath(oldPath, newPath):
     try:
         file['lists'].remove(oldPath)
     except ValueError:
-        moveAnyways = input(f'List {oldPath} not found, move anyways?(y/n)')
-        if moveAnyways != 'y':
-            return
-    
+        print(f'List {oldPath} not found, please check the path.')
+        return
+
     file['lists'].append(newPath)
     json.dump(file, open('lists.json', 'w'))
 
     # move file
     os.renames(oldPath, newPath)
+
+    print(f'List {oldPath} moved to {newPath}.')
