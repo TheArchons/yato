@@ -40,6 +40,9 @@ def setup_teardown():
     if os.path.exists(str(Path.home()) + os.path.sep + 'lists.json'):
         os.remove(str(Path.home()) + os.path.sep + 'lists.json')
 
+    if os.path.exists(str(Path.home()) + os.path.sep + 'testMoved.json'):
+        os.remove(str(Path.home()) + os.path.sep + 'testMoved.json')
+
     yield # runs tests
 
     # teardown
@@ -66,6 +69,12 @@ def setup_teardown():
 
     if os.path.exists('testMoved.json'):
         os.remove('testMoved.json')
+
+    if os.path.exists(str(Path.home()) + os.path.sep + 'testMoved.json'):
+        os.remove(str(Path.home()) + os.path.sep + 'testMoved.json')
+
+    if os.path.exists(str(Path.home()) + os.path.sep + 'lists.json'):
+        os.remove(str(Path.home()) + os.path.sep + 'lists.json')
 
 def test_ListNameEdit():
     open('test.json', 'w').close()

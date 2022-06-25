@@ -161,4 +161,17 @@ def createConfig():
             config.write("lists = lists.json \n")
 
 def changeListPath(oldPath, newPath):
-    return # TODO
+    # update lists.json
+    file = getFile('lists.json')
+    try:
+        file['lists'].remove(oldPath)
+    except ValueError:
+        moveAnyways = input(f'List {oldPath} not found, move anyways?(y/n)')
+        if moveAnyways != 'y':
+            return
+    
+    file['lists'].append(newPath)
+    json.dump(file, open('lists.json', 'w'))
+
+    # move file
+    os.renames(oldPath, newPath)
