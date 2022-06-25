@@ -1,9 +1,10 @@
 from termcolor import colored
-from JSONManip import *
-import sys
+from JSONManip import getFile, delTask, delTasksTask, \
+     changeTODOCount, listListAdd
 import os
 import json
 import configparser
+
 
 def warningDataLoss():
     print(colored('WARNING: Data will be lost.  Continue? (y/n)', 'red'))
@@ -11,6 +12,7 @@ def warningDataLoss():
         return True
     else:
         return False
+
 
 def help():
     print("yato - yet another TODO list\n\
@@ -25,30 +27,36 @@ def help():
     -da or --date:      add a date to a task\n\
     -e or --edit:       edit a TODO list's name\n\
     -i or --insert:     insert a task into a TODO list\n\
-    -cll or --change-list-list:     change the location of the list of lists file\n\
+    -cll or --change-list-list: change the location of the list of lists\n\
     -cl or --change-list:     change the location of a TODO list\n")
 
+
 def new(fileLocation):
-    json.dump({"todos" : 0, "tasks" : []}, open(fileLocation, 'w'))
+    json.dump({"todos": 0, "tasks": []}, open(fileLocation, 'w'))
     listListAdd(fileLocation.split('/')[-1])
     print('File created at: ' + fileLocation)
+
 
 def addToList(list, add):
     changeTODOCount(list, True)
     file = getFile(list)
-    file[add] = {'complete' : False, 'index' : file['todos']}
+    file[add] = {'complete': False, 'index': file['todos']}
     file["tasks"].append((add, file['todos']))
     json.dump(file, open(list, 'w'))
     print(f'Task {add} added.')
+
 
 def listTasks(fileLocation):
     file = getFile(fileLocation)
     for pos, task in enumerate(file['tasks']):
         task[1] = pos+1
         if file[task[0]]["complete"]:
-            print(colored(str(task[1]) + '. ' + task[0], 'green')) #print completed tasks green
+            # print completed tasks green
+            print(colored(str(task[1]) + '. ' + task[0], 'green'))
         else:
-            print(colored(str(task[1]) + '. ' + task[0], 'red')) #print uncompleted tasks red
+            # print uncompleted tasks red
+            print(colored(str(task[1]) + '. ' + task[0], 'red'))
+
 
 def completeTask(list, task):
     file = getFile(list)
@@ -58,32 +66,36 @@ def completeTask(list, task):
         print(f'Task {task} not found.')
     json.dump(file, open(list, 'w'))
 
+
 def removeTask(list, task):
     try:
-        #remove task from tasks list
+        # remove task from tasks list
         delTasksTask(list, task)
-        #delete task from list
+        # delete task from list
         delTask(list, task)
-        #update todos
+        # update todos
         changeTODOCount(list, False)
     except KeyError:
         print(f'Task {task} not found.')
+
 
 def listAllLists():
     file = getFile('lists.json')
     for list in file['lists']:
         print(list)
 
-def createListList(): #create lists.txt if it doesn't exist
+
+def createListList():  # create lists.txt if it doesn't exist
     # open config.ini
     config = configparser.ConfigParser()
     config.read('config.ini')
 
     # create lists.txt if it doesn't exist
     if not os.path.exists(config['paths']['lists']):
-        json.dump({"lists" : []}, open('lists.json', 'w'))
+        json.dump({"lists": []}, open('lists.json', 'w'))
 
-def removeList(listPos): #removes a TODO list
+
+def removeList(listPos):  # removes a TODO list
     if not warningDataLoss():
         return
     file = getFile('lists.json')
@@ -95,6 +107,7 @@ def removeList(listPos): #removes a TODO list
     except ValueError:
         print(f'List {listPos} not found.')
 
+
 def addDate(list, task, date):
     file = getFile(list)
     try:
@@ -105,39 +118,42 @@ def addDate(list, task, date):
     except KeyError:
         print(f'Task {task} not found.')
 
+
 def ListNameEdit(list, newName):
     os.rename(list, newName)
     file = getFile('lists.json')
     try:
         file['lists'].remove(list)
-    except:
+    except ValueError:
         pass
     file['lists'].append(newName)
     json.dump(file, open('lists.json', 'w'))
 
+
 def insert(list, task, pos):
     file = getFile(list)
-    #find highest index
+    # find highest index
     highest = 0
     for listTask in file['tasks']:
         if listTask[1] > highest:
             highest = listTask[1]
     if pos > highest+1:
         return print('Position too high.')
-    #move up tasks in list that are greater or equal to pos
+    # move up tasks in list that are greater or equal to pos
     firstPos = -1
     for fileTask in file['tasks']:
         if fileTask[1] >= pos:
             if firstPos == -1:
                 firstPos = fileTask[1]
             fileTask[1] += 1
-    #insert task into list
+    # insert task into list
     if firstPos == -1:
         file['tasks'].insert(len(file['tasks'])+1, [task, pos])
     else:
         file['tasks'].insert(firstPos-1, [task, pos])
-    file[task] = {'complete' : False, 'index' : pos}
+    file[task] = {'complete': False, 'index': pos}
     json.dump(file, open(list, 'w'))
+
 
 def changeListListPath(newPath):
     # open config.ini
@@ -151,17 +167,19 @@ def changeListListPath(newPath):
     # write config.ini
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
-    
+
     # move file
     os.renames(oldPath, newPath)
 
     print('List list file location changed.')
+
 
 def createConfig():
     if not os.path.exists('config.ini'):
         with open('config.ini', 'w') as config:
             config.write('[paths]\n')
             config.write("lists = lists.json \n")
+
 
 def changeListPath(oldPath, newPath):
     # update lists.json
