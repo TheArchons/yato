@@ -41,4 +41,6 @@ def main():
     elif getCmd() == '-cll' or getCmd() == '--change-list-list':
         changeListListPath(getFileLocation(2))
     
+    elif getCmd() == '-cl' or getCmd() == '--change-list':
+        changeListPath(getFileLocation(2), getFileLocation(3))
 main()
