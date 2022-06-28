@@ -1,14 +1,13 @@
 # yato
 yato - Yet another Todo app, a cli program for TODO lists
 
-# Dependencies
-Use `pip install -r requirements.txt` in the yato directory
-
 # Installation
-I will add this to pip in the future. For now, follow the steps below:
-1. clone the source code
-2. run `pip install -r requirements.txt`
-3. run `python yato.py` to start the app
+
+## From pip
+To install from pip, run `pip install yato` with pip installed
+
+## From source
+To build from source, clone the repository and run `pip install .` in the yato directory
 
 # Usage
 
@@ -47,3 +46,6 @@ For example, to create a new TODO list, run `python yato.py -n`
 | `-e` or `--edit` | edit a TODO list's name
 | `-i` or `--insert` | insert a task into a TODO list
 | `-cll` or `--change-list-list` | change the location of the list of lists file
+
+# Dependencies
+1.termcolor
