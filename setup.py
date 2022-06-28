@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='yato',
-    version='1.1',
+    version='1.0',
     description='yato - Yet another Todo app, a cli program for TODO lists',
     url="https://github.com/TheArchons/yato",
     author='TheArchons',
