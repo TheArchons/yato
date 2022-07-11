@@ -26,9 +26,9 @@ To build from source, clone the repository and run `pip install .` in the yato d
     -cll or --change-list-list:     change the location of the list of lists file
 -->
 
-Run `python yato.py` and add arguments to the command line
+Run `yato` and add arguments to the command line
 
-For example, to create a new TODO list, run `python yato.py -n`
+For example, to create a new TODO list, run `yato -n`
 
 # Supported arguments
 
@@ -48,4 +48,5 @@ For example, to create a new TODO list, run `python yato.py -n`
 | `-cll` or `--change-list-list` | change the location of the list of lists file
 
 # Dependencies
+If you're installing from pip, these are automatically installed.
 1.termcolor
