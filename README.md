@@ -48,5 +48,5 @@ For example, to create a new TODO list, run `yato -n`
 | `-cll` or `--change-list-list` | change the location of the list of lists file
 
 # Dependencies
-If you're installing from pip, these are automatically installed.
+If you're installing from pip, these are automatically installed. \
 1.termcolor
