@@ -4,6 +4,7 @@ setup.py
 yato/JSONManip.py
 yato/__init__.py
 yato/actions.py
+yato/conftest.py
 yato/get.py
 yato/test_actions.py
 yato/yato.py
