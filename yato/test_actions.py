@@ -1,7 +1,8 @@
 import pytest
 import json
 from actions import createListList, ListNameEdit,\
-    insert, changeListListPath, createConfig, new, addToList, changeListPath
+    insert, changeListListPath, createConfig, new, addToList, changeListPath,\
+    checkTaskExists, getFile
 import os
 from pathlib import Path
 from shutil import rmtree
@@ -46,7 +47,6 @@ def setup_teardown():
         if os.path.exists(file):
             os.remove(file)
     for path in removePaths:
-
         if os.path.exists(path):
             rmtree(path)
 
@@ -194,3 +194,47 @@ def test_changeListPath():
     assert os.path.exists(path)\
         and not os.path.exists(prevPath)\
         and json.loads(open(path).read()) == temp
+
+
+def test_checkTaskExists():
+    # create list
+    new('test.json')
+
+    # add task to lists
+    addToList('test.json', 'task')
+
+    # check if task exists
+    assert checkTaskExists('test.json', 'task')
+    # check if task does not exist
+    assert not checkTaskExists('test.json', 'task2')
+    # check if list does not exist
+    assert not checkTaskExists('test.json', 'task312')
+    # check if list does not exist
+    assert not checkTaskExists('test.json', 'task22')
+
+
+def test_addToList():
+    # create list
+    new('test.json')
+
+    # add task to test.json
+    addToList('test.json', 'task')
+
+    # check if task exists
+    assert checkTaskExists('test.json', 'task')
+
+    # add same task to test.json
+    addToList('test.json', 'task')
+
+    # check if only one task exists
+    file = getFile('test.json')
+    assert len(file['tasks']) == 1
+    assert file['tasks'][0] == ['task', 1]
+
+    # add different task to test.json
+    addToList('test.json', 'task2')
+    # check if two tasks exist
+    file = getFile('test.json')
+    assert len(file['tasks']) == 2
+    assert file['tasks'][0] == ['task', 1]
+    assert file['tasks'][1] == ['task2', 2]
