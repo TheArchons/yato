@@ -6,6 +6,14 @@ import json
 import configparser
 
 
+def checkTaskExists(list, task):
+    """"Checks if a task exists in a TODO list"""
+    file = getFile(list)
+    if task in file:
+        return True
+    return False
+
+
 def warningDataLoss():
     print(colored('WARNING: Data will be lost.  Continue? (y/n)', 'red'))
     if input().lower() == 'y':
@@ -38,6 +46,9 @@ def new(fileLocation):
 
 
 def addToList(list, add):
+    if checkTaskExists(list, add):
+        print(f'Task {add} already exists.')
+        return
     changeTODOCount(list, True)
     file = getFile(list)
     file[add] = {'complete': False, 'index': file['todos']}
@@ -165,8 +176,8 @@ def changeListListPath(newPath):
     config['paths']['lists'] = newPath
 
     # write config.ini
-    with open('config.ini', 'w') as configfile:
-        config.write(configfile)
+    with open('config.ini', 'w') as configFile:
+        config.write(configFile)
 
     # move file
     os.renames(oldPath, newPath)
