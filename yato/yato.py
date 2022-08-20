@@ -2,7 +2,6 @@ from actions import createConfig, createListList, new, addToList,\
     listTasks, completeTask, removeTask, listAllLists,\
     removeList, addDate, ListNameEdit, insert, changeListListPath,\
     changeListPath, help, backup, restoreBackup
-
 from get import getCmd, getFileLocation, getTask, getNewName, getDate, getuInt
 
 
