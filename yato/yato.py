@@ -5,10 +5,8 @@ from get import getCmd, getFileLocation, getTask, getNewName, getDate, getuInt
 def main():
     actions.createConfig()  # create config.ini if it doesn't exist
     actions.createListList()  # create lists.txt if it doesn't exist
-    if getCmd() == '-h' or getCmd() == '--help':  # help at help.txt
-        help()
 
-    elif getCmd() == '-n' or getCmd() == '--new':  # New List
+    if getCmd() == '-n' or getCmd() == '--new':  # New List
         actions.new(getFileLocation(2))
 
     elif getCmd() == '-a' or getCmd() == '--add':  # Add to list
@@ -49,6 +47,9 @@ def main():
 
     elif getCmd() == '-rb' or getCmd() == '--restore-backup':
         actions.restoreBackup(getFileLocation(2), getFileLocation(3))
+
+    else:
+        help()
 
 
 main()
