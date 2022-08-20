@@ -46,6 +46,8 @@ For example, to create a new TODO list, run `yato -n`
 | `-e` or `--edit` | edit a TODO list's name
 | `-i` or `--insert` | insert a task into a TODO list
 | `-cll` or `--change-list-list` | change the location of the list of lists file
+| `-b` or `--backup` | backup the TODO list
+| `-rb` or `--restore-backup` | restore a backup of a TODO list
 
 # Dependencies
 If you're installing from pip, these are automatically installed. \
