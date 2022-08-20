@@ -1,15 +1,16 @@
 from termcolor import colored
-from JSONManip import getFile, delTask, delTasksTask, \
-     changeTODOCount, listListAdd
+import JSONManip
 import os
 import json
 import configparser
 from shutil import copyfile
 
+lists = JSONManip.getFile('lists.json')
+
 
 def checkTaskExists(list, task):
     """"Checks if a task exists in a TODO list"""
-    file = getFile(list)
+    file = JSONManip.getFile(list)
     if task in file:
         return True
     return False
@@ -42,7 +43,7 @@ def help():
 
 def new(fileLocation):
     json.dump({"todos": 0, "tasks": []}, open(fileLocation, 'w'))
-    listListAdd(fileLocation.split('/')[-1])
+    JSONManip.listListAdd(fileLocation.split('/')[-1])
     print('File created at: ' + fileLocation)
 
 
@@ -50,8 +51,8 @@ def addToList(list, add):
     if checkTaskExists(list, add):
         print(f'Task {add} already exists.')
         return
-    changeTODOCount(list, True)
-    file = getFile(list)
+    JSONManip.changeTODOCount(list, True)
+    file = JSONManip.getFile(list)
     file[add] = {'complete': False, 'index': file['todos']}
     file["tasks"].append((add, file['todos']))
     json.dump(file, open(list, 'w'))
@@ -59,7 +60,7 @@ def addToList(list, add):
 
 
 def listTasks(fileLocation):
-    file = getFile(fileLocation)
+    file = JSONManip.getFile(fileLocation)
     for pos, task in enumerate(file['tasks']):
         task[1] = pos+1
         if file[task[0]]["complete"]:
@@ -71,7 +72,7 @@ def listTasks(fileLocation):
 
 
 def completeTask(list, task):
-    file = getFile(list)
+    file = JSONManip.getFile(list)
     try:
         file[task]['complete'] = not file[task]['complete']
     except KeyError:
@@ -82,18 +83,17 @@ def completeTask(list, task):
 def removeTask(list, task):
     try:
         # remove task from tasks list
-        delTasksTask(list, task)
+        JSONManip.delTasksTask(list, task)
         # delete task from list
-        delTask(list, task)
+        JSONManip.delTask(list, task)
         # update todos
-        changeTODOCount(list, False)
+        JSONManip.changeTODOCount(list, False)
     except KeyError:
         print(f'Task {task} not found.')
 
 
 def listAllLists():
-    file = getFile('lists.json')
-    for list in file['lists']:
+    for list in lists['lists']:
         print(list)
 
 
@@ -110,18 +110,17 @@ def createListList():  # create lists.txt if it doesn't exist
 def removeList(listPos):  # removes a TODO list
     if not warningDataLoss():
         return
-    file = getFile('lists.json')
     try:
-        file['lists'].remove(listPos)
+        lists['lists'].remove(listPos)
         os.remove(listPos)
-        json.dump(file, open('lists.json', 'w'))
+        json.dump(lists, open('lists.json', 'w'))
         print(f'List {listPos} removed.')
     except ValueError:
         print(f'List {listPos} not found.')
 
 
 def addDate(list, task, date):
-    file = getFile(list)
+    file = JSONManip.getFile(list)
     try:
         file[task]['date'] = [int(date[0]), int(date[1]), int(date[2])]
         json.dump(file, open(list, 'w'))
@@ -133,17 +132,16 @@ def addDate(list, task, date):
 
 def ListNameEdit(list, newName):
     os.rename(list, newName)
-    file = getFile('lists.json')
     try:
-        file['lists'].remove(list)
+        lists['lists'].remove(list)
     except ValueError:
         pass
-    file['lists'].append(newName)
-    json.dump(file, open('lists.json', 'w'))
+    lists['lists'].append(newName)
+    json.dump(lists, open('lists.json', 'w'))
 
 
 def insert(list, task, pos):
-    file = getFile(list)
+    file = JSONManip.getFile(list)
     # find highest index
     highest = 0
     for listTask in file['tasks']:
@@ -195,15 +193,14 @@ def createConfig():
 
 def changeListPath(oldPath, newPath):
     # update lists.json
-    file = getFile('lists.json')
     try:
-        file['lists'].remove(oldPath)
+        lists['lists'].remove(oldPath)
     except ValueError:
         print(f'List {oldPath} not found, please check the path.')
         return
 
-    file['lists'].append(newPath)
-    json.dump(file, open('lists.json', 'w'))
+    lists['lists'].append(newPath)
+    json.dump(lists, open('lists.json', 'w'))
 
     # move file
     os.renames(oldPath, newPath)
