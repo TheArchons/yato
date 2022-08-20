@@ -4,6 +4,7 @@ from JSONManip import getFile, delTask, delTasksTask, \
 import os
 import json
 import configparser
+from shutil import copyfile
 
 
 def checkTaskExists(list, task):
@@ -208,3 +209,27 @@ def changeListPath(oldPath, newPath):
     os.renames(oldPath, newPath)
 
     print(f'List {oldPath} moved to {newPath}.')
+
+
+def backup(original, backup):
+    """Backup a list to a new location."""
+    if os.path.exists(original):
+        try:
+            copyfile(original, backup)
+        except FileNotFoundError:
+            print(f'File {original} not found.')
+        print(f'List {original} backed up to {backup}.')
+    else:
+        print(f'List {original} not found.')
+
+
+def restoreBackup(backup, original):
+    """Restore a list from a backup."""
+    if os.path.exists(backup):
+        try:
+            copyfile(backup, original)
+        except FileNotFoundError:
+            print(f'File {backup} not found.')
+        print(f'List {backup} restored to {original}.')
+    else:
+        print(f'List {backup} not found.')

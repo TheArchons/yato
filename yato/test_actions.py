@@ -2,15 +2,13 @@ import pytest
 import json
 from actions import createListList, ListNameEdit,\
     insert, changeListListPath, createConfig, new, addToList, changeListPath,\
-    checkTaskExists, getFile
+    checkTaskExists, getFile, backup, restoreBackup
 import os
 from pathlib import Path
 from shutil import rmtree
 
 
-@pytest.fixture(autouse=True)
-def setup_teardown():
-    # setup
+def remove():
     removeFiles = [
         'config.ini',
         'lists.json',
@@ -19,6 +17,7 @@ def setup_teardown():
         'asd.txt',
         '111.json',
         'testMoved.json',
+        'testBackup.json',
         str(Path.home()) + os.path.sep + 'lists.json',
         str(Path.home()) + os.path.sep + 'testMoved.json'
     ]
@@ -31,11 +30,17 @@ def setup_teardown():
     for file in removeFiles:
         if os.path.exists(file):
             os.remove(file)
+
     # remove directories incase they exist
     for path in removePaths:
-        print(path)
         if os.path.exists(path):
             rmtree(path)
+
+
+@pytest.fixture(autouse=True)
+def setup_teardown():
+    # setup
+    remove()
 
     createConfig()
     createListList()
@@ -43,12 +48,7 @@ def setup_teardown():
     yield  # runs tests
 
     # teardown
-    for file in removeFiles:
-        if os.path.exists(file):
-            os.remove(file)
-    for path in removePaths:
-        if os.path.exists(path):
-            rmtree(path)
+    remove()
 
 
 def test_ListNameEdit():
@@ -238,3 +238,38 @@ def test_addToList():
     assert len(file['tasks']) == 2
     assert file['tasks'][0] == ['task', 1]
     assert file['tasks'][1] == ['task2', 2]
+
+
+def test_backup():
+    new('test.json')
+    addToList('test.json', 'task')
+    backup('test.json', 'testBackup.json')
+
+    assert os.path.exists('testBackup.json')
+    testBackup = json.loads(open('testBackup.json').read())
+    test = json.loads(open('test.json').read())
+    assert test == testBackup
+
+    os.remove('test.json')
+
+    assert not os.path.exists('test.json')
+    assert os.path.exists('testBackup.json')
+
+
+def test_restoreBackup():
+    new('test.json')
+    addToList('test.json', 'task')
+
+    backup('test.json', 'testBackup.json')
+
+    testFile = json.loads(open('test.json').read())
+
+    os.remove('test.json')
+
+    restoreBackup('testBackup.json', 'test.json')
+
+    assert os.path.exists('test.json')
+
+    restoredFile = json.loads(open('test.json').read())
+
+    assert testFile == restoredFile

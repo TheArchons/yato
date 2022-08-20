@@ -1,7 +1,7 @@
 from actions import createConfig, createListList, new, addToList,\
     listTasks, completeTask, removeTask, listAllLists,\
     removeList, addDate, ListNameEdit, insert, changeListListPath,\
-    changeListPath, help
+    changeListPath, help, backup, restoreBackup
 
 from get import getCmd, getFileLocation, getTask, getNewName, getDate, getuInt
 
@@ -47,6 +47,12 @@ def main():
 
     elif getCmd() == '-cl' or getCmd() == '--change-list':
         changeListPath(getFileLocation(2), getFileLocation(3))
+
+    elif getCmd() == '-b' or getCmd() == '--backup':
+        backup(getFileLocation(2), getFileLocation(3))
+
+    elif getCmd() == '-rb' or getCmd() == '--restore-backup':
+        restoreBackup(getFileLocation(2), getFileLocation(3))
 
 
 main()
