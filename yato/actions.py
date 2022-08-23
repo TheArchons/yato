@@ -1,5 +1,5 @@
 from termcolor import colored
-from JSONManip import getFile, delTask, delTasksTask, \
+from yato.JSONManip import getFile, delTask, delTasksTask, \
      changeTODOCount, listListAdd
 import os
 import json

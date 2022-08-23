@@ -1,14 +1,13 @@
 from yato.actions import createConfig, createListList, new, addToList,\
     listTasks, completeTask, removeTask, listAllLists,\
     removeList, addDate, ListNameEdit, insert, changeListListPath,\
-    changeListPath, help
-
+    changeListPath, help, backup, restoreBackup
 from yato.get import getCmd, getFileLocation, getTask, getNewName, getDate, getuInt
 
 
 def main():
     createConfig()  # create config.ini if it doesn't exist
-    createListList()  # create lists.txt if it doesn't exist
+    createListList()  # create lists.json if it doesn't exist
     if getCmd() == '-h' or getCmd() == '--help':  # help at help.txt
         help()
 
@@ -47,6 +46,12 @@ def main():
 
     elif getCmd() == '-cl' or getCmd() == '--change-list':
         changeListPath(getFileLocation(2), getFileLocation(3))
+
+    elif getCmd() == '-b' or getCmd() == '--backup':
+        backup(getFileLocation(2), getFileLocation(3))
+
+    elif getCmd() == '-rb' or getCmd() == '--restore-backup':
+        restoreBackup(getFileLocation(2), getFileLocation(3))
 
 
 main()
