@@ -1,6 +1,6 @@
 """Setuptools config for yato."""
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='yato',
@@ -10,7 +10,7 @@ setup(
     author='TheArchons',
     author_email='alexli9138@gmail.com',
     license='MIT',
-    packages=['yato'],
+    packages=find_packages(),
     install_requires=['termcolor'],
     entry_points={'console_scripts': ['yato=yato.actions:main']},
     keywords=['yato', 'todo', 'list', 'tasks'],

@@ -8,11 +8,6 @@ import configparser
 from shutil import copyfile
 
 
-def main():
-    """Main function"""
-    return
-
-
 def checkTaskExists(list, task):
     """"Check if a task exists in a TODO list"""
 
