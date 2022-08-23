@@ -1,1 +1,1 @@
-import yato.yato
+"""init file for yato"""

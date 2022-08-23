@@ -1,8 +1,12 @@
+"""run functions based on command line arguments"""
+
 import yato.actions as actions
 import yato.get as get
 
 
 def main():
+    """Main function"""
+
     actions.createConfig()  # create config.ini if it doesn't exist
     actions.createListList()  # create lists.json if it doesn't exist
 

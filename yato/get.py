@@ -1,8 +1,12 @@
+"""Get the command line argument."""
+
 import sys
 import datetime
 
 
 def getFileLocation(arg):
+    """Get the file location from the command line."""
+
     try:
         return sys.argv[arg]
     except IndexError:  # if no file location is given
@@ -11,6 +15,8 @@ def getFileLocation(arg):
 
 
 def getTask(arg):
+    """Get the task from the command line."""
+
     try:
         return sys.argv[arg]
     except IndexError:  # if no task is given
@@ -19,6 +25,8 @@ def getTask(arg):
 
 
 def getNewName(arg):
+    """Get the new name from the command line."""
+
     try:
         return sys.argv[arg]
     except IndexError:  # if no new name is given
@@ -27,6 +35,8 @@ def getNewName(arg):
 
 
 def getCmd():
+    """Get the command line argument at index 1."""
+
     try:
         return sys.argv[1]
     except IndexError:
@@ -35,6 +45,8 @@ def getCmd():
 
 
 def validDate(date):
+    """Check if a date is valid."""
+
     try:
         datetime.datetime(int(date[2]), int(date[1]), int(date[0]))
         return True
@@ -43,6 +55,8 @@ def validDate(date):
 
 
 def getDate(arg):
+    """Get the date from the command line."""
+
     try:
         date = sys.argv[arg].split('/')
         if validDate(date):
@@ -56,6 +70,8 @@ def getDate(arg):
 
 
 def getuInt(arg):
+    """Get an unsigned integer from the command line."""
+
     try:
         integer = int(sys.argv[arg])
         if integer > 0:

@@ -1,3 +1,5 @@
+"""Setuptools config for yato."""
+
 from setuptools import setup
 
 setup(

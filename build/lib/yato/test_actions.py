@@ -1,3 +1,5 @@
+"""pytest tests for actions.py"""
+
 import pytest
 import json
 import yato.actions as actions
@@ -8,6 +10,8 @@ from shutil import rmtree
 
 
 def remove():
+    """Remove all files created by the tests"""
+
     removeFiles = [
         'config.ini',
         'lists.json',
@@ -38,6 +42,8 @@ def remove():
 
 @pytest.fixture(autouse=True)
 def setup_teardown():
+    """Automatic setup and teardown of tests"""
+
     # setup
     remove()
 
@@ -51,6 +57,8 @@ def setup_teardown():
 
 
 def test_ListNameEdit():
+    """Test ListNameEdit"""
+
     open('test.json', 'w').close()
 
     actions.ListNameEdit('test.json', 'test2.json')
@@ -83,6 +91,7 @@ def test_ListNameEdit():
 
 
 def test_insert():
+    """Test insert"""
 
     actions.new('test.json')
     actions.insert('test.json', 'task', 1)
@@ -106,7 +115,9 @@ def test_insert():
 
 
 def test_changeListListPath():
-    sep = os.path.sep
+    """test changeListListPath"""
+
+    sep = os.path.sep  # separator for the operating system
 
     # Create 2 lists
     actions.new('test.json')
@@ -144,6 +155,8 @@ def test_changeListListPath():
 
 
 def test_createConfig():
+    """Test createConfig"""
+
     # check if config file exists
     assert os.path.exists('config.ini')
     # read config file
@@ -155,6 +168,8 @@ def test_createConfig():
 
 
 def test_changeListPath():
+    """Test changeListPath"""
+
     # create list
     actions.new('test.json')
 
@@ -196,6 +211,8 @@ def test_changeListPath():
 
 
 def test_checkTaskExists():
+    """Test checkTaskExists"""
+
     # create list
     actions.new('test.json')
 
@@ -213,6 +230,8 @@ def test_checkTaskExists():
 
 
 def test_addToList():
+    """Test addToList"""
+
     # create list
     actions.new('test.json')
 
@@ -240,6 +259,8 @@ def test_addToList():
 
 
 def test_backup():
+    """Test backup"""
+
     actions.new('test.json')
     actions.addToList('test.json', 'task')
     actions.backup('test.json', 'testBackup.json')
@@ -256,6 +277,8 @@ def test_backup():
 
 
 def test_restoreBackup():
+    """Test restoreBackup"""
+
     actions.new('test.json')
     actions.addToList('test.json', 'task')
 

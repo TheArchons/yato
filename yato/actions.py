@@ -1,3 +1,5 @@
+"""Perform various actions on TODO lists"""
+
 from termcolor import colored
 import yato.JSONManip as JSONManip
 import os
@@ -7,11 +9,13 @@ from shutil import copyfile
 
 
 def main():
+    """Main function"""
     return
 
 
 def checkTaskExists(list, task):
-    """"Checks if a task exists in a TODO list"""
+    """"Check if a task exists in a TODO list"""
+
     file = JSONManip.getFile(list)
     if task in file:
         return True
@@ -19,6 +23,8 @@ def checkTaskExists(list, task):
 
 
 def warningDataLoss():
+    """Warn user about data loss"""
+
     print(colored('WARNING: Data will be lost.  Continue? (y/n)', 'red'))
     if input().lower() == 'y':
         return True
@@ -27,6 +33,8 @@ def warningDataLoss():
 
 
 def help():
+    """Print help message"""
+
     print("yato - yet another TODO list\n\
     -h or --help:       show this help\n\
     -n or --new:        create a new TODO list\n\
@@ -46,12 +54,20 @@ def help():
 
 
 def new(fileLocation):
+    """create a new TODO list at fileLocation"""
+
     json.dump({"todos": 0, "tasks": []}, open(fileLocation, 'w'))
     JSONManip.listListAdd(fileLocation.split('/')[-1])
     print('File created at: ' + fileLocation)
 
 
 def addToList(list, add):
+    """add a task to a TODO list
+
+    args:
+        list: the TODO list to add the task to
+        add: the task to add"""
+
     if checkTaskExists(list, add):
         print(f'Task {add} already exists.')
         return
@@ -64,6 +80,8 @@ def addToList(list, add):
 
 
 def listTasks(fileLocation):
+    """list all tasks in a TODO list"""
+
     file = JSONManip.getFile(fileLocation)
     for pos, task in enumerate(file['tasks']):
         task[1] = pos+1
@@ -76,6 +94,8 @@ def listTasks(fileLocation):
 
 
 def completeTask(list, task):
+    """mark a task as complete"""
+
     file = JSONManip.getFile(list)
     try:
         file[task]['complete'] = not file[task]['complete']
@@ -85,6 +105,8 @@ def completeTask(list, task):
 
 
 def removeTask(list, task):
+    """remove a task from a TODO list"""
+
     try:
         # remove task from tasks list
         JSONManip.delTasksTask(list, task)
@@ -97,12 +119,16 @@ def removeTask(list, task):
 
 
 def listAllLists():
+    """List all TODO lists"""
+
     file = JSONManip.getFile('lists.json')
     for list in file['lists']:
         print(list)
 
 
-def createListList():  # create lists.txt if it doesn't exist
+def createListList():
+    """If the list of lists doesn't exist, create it"""
+
     # open config.ini
     config = configparser.ConfigParser()
     config.read('config.ini')
@@ -112,7 +138,9 @@ def createListList():  # create lists.txt if it doesn't exist
         json.dump({"lists": []}, open('lists.json', 'w'))
 
 
-def removeList(listPos):  # removes a TODO list
+def removeList(listPos):
+    """Remove a TODO list at listPos"""
+
     if not warningDataLoss():
         return
     file = JSONManip.getFile('lists.json')
@@ -126,6 +154,8 @@ def removeList(listPos):  # removes a TODO list
 
 
 def addDate(list, task, date):
+    """Add a date to a task in a TODO list"""
+
     file = JSONManip.getFile(list)
     try:
         file[task]['date'] = [int(date[0]), int(date[1]), int(date[2])]
@@ -137,6 +167,8 @@ def addDate(list, task, date):
 
 
 def ListNameEdit(list, newName):
+    """Edit a TODO list's name"""
+
     os.rename(list, newName)
     file = JSONManip.getFile('lists.json')
     try:
@@ -148,6 +180,8 @@ def ListNameEdit(list, newName):
 
 
 def insert(list, task, pos):
+    """Insert a task into a TODO list at pos"""
+
     file = JSONManip.getFile(list)
     # find highest index
     highest = 0
@@ -173,6 +207,8 @@ def insert(list, task, pos):
 
 
 def changeListListPath(newPath):
+    """Change the location of the list of lists"""
+
     # open config.ini
     config = configparser.ConfigParser()
     config.read('config.ini')
@@ -192,6 +228,8 @@ def changeListListPath(newPath):
 
 
 def createConfig():
+    """Create config.ini if it doesn't exist"""
+
     if not os.path.exists('config.ini'):
         with open('config.ini', 'w') as config:
             config.write('[paths]\n')
@@ -199,6 +237,8 @@ def createConfig():
 
 
 def changeListPath(oldPath, newPath):
+    """Change the location of a TODO list"""
+
     # update lists.json
     file = JSONManip.getFile('lists.json')
     try:
