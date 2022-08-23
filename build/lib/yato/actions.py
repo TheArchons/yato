@@ -9,9 +9,7 @@ from shutil import copyfile
 
 
 def main():
-    """Main function"""
     return
-
 
 def checkTaskExists(list, task):
     """"Check if a task exists in a TODO list"""
@@ -25,7 +23,7 @@ def checkTaskExists(list, task):
 def warningDataLoss():
     """Warn user about data loss"""
 
-    print(colored('WARNING: Data will be lost.  Continue? (y/n)', 'red'))
+    print(colored('WARNING: Data will be lost.  Continue? (y/n)', 'red'), end='')
     if input().lower() == 'y':
         return True
     else:
@@ -146,7 +144,10 @@ def removeList(listPos):
     file = JSONManip.getFile('lists.json')
     try:
         file['lists'].remove(listPos)
-        os.remove(listPos)
+        try:
+            os.remove(listPos)
+        except FileNotFoundError:  # if the list doesn't exist, don't worry about it
+            pass
         json.dump(file, open('lists.json', 'w'))
         print(f'List {listPos} removed.')
     except ValueError:
