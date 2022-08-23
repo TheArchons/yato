@@ -37,7 +37,9 @@ def help():
     -e or --edit:       edit a TODO list's name\n\
     -i or --insert:     insert a task into a TODO list\n\
     -cll or --change-list-list: change the location of the list of lists\n\
-    -cl or --change-list:     change the location of a TODO list\n")
+    -cl or --change-list:     change the location of a TODO list\n\
+    -b or --backup:     backup a TODO list\n\
+    -rb or --restore:   restore a TODO list\n")
 
 
 def new(fileLocation):
