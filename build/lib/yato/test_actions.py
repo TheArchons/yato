@@ -1,15 +1,13 @@
 import pytest
 import json
-from actions import createListList, ListNameEdit,\
-    insert, changeListListPath, createConfig, new, addToList, changeListPath
+import yato.actions as actions
+from JSONManip import getFile as getFile
 import os
 from pathlib import Path
 from shutil import rmtree
 
 
-@pytest.fixture(autouse=True)
-def setup_teardown():
-    # setup
+def remove():
     removeFiles = [
         'config.ini',
         'lists.json',
@@ -18,6 +16,7 @@ def setup_teardown():
         'asd.txt',
         '111.json',
         'testMoved.json',
+        'testBackup.json',
         str(Path.home()) + os.path.sep + 'lists.json',
         str(Path.home()) + os.path.sep + 'testMoved.json'
     ]
@@ -30,54 +29,54 @@ def setup_teardown():
     for file in removeFiles:
         if os.path.exists(file):
             os.remove(file)
+
     # remove directories incase they exist
     for path in removePaths:
-        print(path)
         if os.path.exists(path):
             rmtree(path)
 
-    createConfig()
-    createListList()
+
+@pytest.fixture(autouse=True)
+def setup_teardown():
+    # setup
+    remove()
+
+    actions.createConfig()
+    actions.createListList()
 
     yield  # runs tests
 
     # teardown
-    for file in removeFiles:
-        if os.path.exists(file):
-            os.remove(file)
-    for path in removePaths:
-
-        if os.path.exists(path):
-            rmtree(path)
+    remove()
 
 
 def test_ListNameEdit():
     open('test.json', 'w').close()
 
-    ListNameEdit('test.json', 'test2.json')
+    actions.ListNameEdit('test.json', 'test2.json')
     assert os.path.exists('test2.json')
     assert ('test2.json' in json.loads(open('lists.json').read())['lists'])
     assert not ('test.json' in json.loads(open('lists.json').read())['lists'])
 
-    ListNameEdit('test2.json', 'test2.json')
+    actions.ListNameEdit('test2.json', 'test2.json')
     assert os.path.exists('test2.json')
     assert ('test2.json' in json.loads(open('lists.json').read())['lists'])
 
-    ListNameEdit('test2.json', 'asd.txt')
+    actions.ListNameEdit('test2.json', 'asd.txt')
     assert os.path.exists('asd.txt')
     assert ('asd.txt' in json.loads(open('lists.json').read())['lists'])
     assert not ('test2.json' in json.loads(open('lists.json').read())['lists'])
 
-    ListNameEdit('asd.txt', 'asd.txt')
+    actions.ListNameEdit('asd.txt', 'asd.txt')
     assert os.path.exists('asd.txt')
     assert ('asd.txt' in json.loads(open('lists.json').read())['lists'])
 
-    ListNameEdit('asd.txt', '111.json')
+    actions.ListNameEdit('asd.txt', '111.json')
     assert os.path.exists('111.json')
     assert ('111.json' in json.loads(open('lists.json').read())['lists'])
     assert not ('asd.txt' in json.loads(open('lists.json').read())['lists'])
 
-    ListNameEdit('111.json', 'test.json')
+    actions.ListNameEdit('111.json', 'test.json')
     assert os.path.exists('test.json')
     assert ('test.json' in json.loads(open('lists.json').read())['lists'])
     assert not ('111.json' in json.loads(open('lists.json').read())['lists'])
@@ -85,15 +84,15 @@ def test_ListNameEdit():
 
 def test_insert():
 
-    new('test.json')
-    insert('test.json', 'task', 1)
+    actions.new('test.json')
+    actions.insert('test.json', 'task', 1)
     assert json.loads(open('test.json').read())['tasks'][0] == ['task', 1]
 
-    insert('test.json', 'task2', 2)
+    actions.insert('test.json', 'task2', 2)
 
     assert json.loads(open('test.json').read())['tasks'][1] == ['task2', 2]
 
-    insert('test.json', 'task1', 2)
+    actions.insert('test.json', 'task1', 2)
 
     assert (json.loads(open('test.json').read())['tasks'][0] == ['task', 1])
     assert (json.loads(open('test.json').read())['tasks'][1] == ['task1', 2])
@@ -101,7 +100,7 @@ def test_insert():
 
     temp = json.loads(open('test.json').read())['tasks']
 
-    insert('test.json', 'task3', 5)
+    actions.insert('test.json', 'task3', 5)
     # should not change the list
     assert json.loads(open('test.json').read())['tasks'] == temp
 
@@ -110,15 +109,15 @@ def test_changeListListPath():
     sep = os.path.sep
 
     # Create 2 lists
-    new('test.json')
-    new('test2.json')
+    actions.new('test.json')
+    actions.new('test2.json')
 
     # add tasks to lists
-    addToList('test.json', 'task')
-    addToList('test2.json', 'task2')
+    actions.addToList('test.json', 'task')
+    actions.addToList('test2.json', 'task2')
 
     # change path of listList
-    changeListListPath('listList' + sep + 'listOfLists.json')
+    actions.changeListListPath('listList' + sep + 'listOfLists.json')
     # check if file exists
     assert(os.path.exists('listList' + sep + 'listOfLists.json'))
     # check if file was deleted
@@ -133,7 +132,7 @@ def test_changeListListPath():
     # move the lists file to home directory
     path = str(Path.home()) + os.path.sep + 'lists.json'
     # os.path.sep is the path separator, usually ' + sep + ' or \
-    changeListListPath(path)
+    actions.changeListListPath(path)
     # check if file exists
     assert(os.path.exists(path))
     # check if file was deleted
@@ -150,23 +149,23 @@ def test_createConfig():
     # read config file
     temp = open('config.ini').read()
     # create config file (should not change the file)
-    createConfig()
+    actions.createConfig()
     # check if config file contents remain the same
     assert temp == open('config.ini').read()
 
 
 def test_changeListPath():
     # create list
-    new('test.json')
+    actions.new('test.json')
 
     # add task to lists
-    addToList('test.json', 'task')
+    actions.addToList('test.json', 'task')
 
     # move and assert
     # save test.json as a variable
     temp = json.loads(open('test.json').read())
     # change path of list
-    changeListPath('test.json', 'testMoved.json')
+    actions.changeListPath('test.json', 'testMoved.json')
     # assert
     assert os.path.exists('testMoved.json')\
         and not os.path.exists('test.json')\
@@ -177,7 +176,7 @@ def test_changeListPath():
     temp = json.loads(open('testMoved.json').read())
     # change path of list
     path = 'lists' + os.path.sep + 'testMoved.json'
-    changeListPath('testMoved.json', path)
+    actions.changeListPath('testMoved.json', path)
     # assert
     assert os.path.exists(path)\
         and not os.path.exists('testMoved.json')\
@@ -189,8 +188,87 @@ def test_changeListPath():
     # change path of list
     prevPath = path
     path = str(Path.home()) + os.path.sep + 'testMoved.json'
-    changeListPath(prevPath, path)
+    actions.changeListPath(prevPath, path)
     # assert
     assert os.path.exists(path)\
         and not os.path.exists(prevPath)\
         and json.loads(open(path).read()) == temp
+
+
+def test_checkTaskExists():
+    # create list
+    actions.new('test.json')
+
+    # add task to lists
+    actions.addToList('test.json', 'task')
+
+    # check if task exists
+    assert actions.checkTaskExists('test.json', 'task')
+    # check if task does not exist
+    assert not actions.checkTaskExists('test.json', 'task2')
+    # check if list does not exist
+    assert not actions.checkTaskExists('test.json', 'task312')
+    # check if list does not exist
+    assert not actions.checkTaskExists('test.json', 'task22')
+
+
+def test_addToList():
+    # create list
+    actions.new('test.json')
+
+    # add task to test.json
+    actions.addToList('test.json', 'task')
+
+    # check if task exists
+    assert actions.checkTaskExists('test.json', 'task')
+
+    # add same task to test.json
+    actions.addToList('test.json', 'task')
+
+    # check if only one task exists
+    file = getFile('test.json')
+    assert len(file['tasks']) == 1
+    assert file['tasks'][0] == ['task', 1]
+
+    # add different task to test.json
+    actions.addToList('test.json', 'task2')
+    # check if two tasks exist
+    file = getFile('test.json')
+    assert len(file['tasks']) == 2
+    assert file['tasks'][0] == ['task', 1]
+    assert file['tasks'][1] == ['task2', 2]
+
+
+def test_backup():
+    actions.new('test.json')
+    actions.addToList('test.json', 'task')
+    actions.backup('test.json', 'testBackup.json')
+
+    assert os.path.exists('testBackup.json')
+    testBackup = json.loads(open('testBackup.json').read())
+    test = json.loads(open('test.json').read())
+    assert test == testBackup
+
+    os.remove('test.json')
+
+    assert not os.path.exists('test.json')
+    assert os.path.exists('testBackup.json')
+
+
+def test_restoreBackup():
+    actions.new('test.json')
+    actions.addToList('test.json', 'task')
+
+    actions.backup('test.json', 'testBackup.json')
+
+    testFile = json.loads(open('test.json').read())
+
+    os.remove('test.json')
+
+    actions.restoreBackup('testBackup.json', 'test.json')
+
+    assert os.path.exists('test.json')
+
+    restoredFile = json.loads(open('test.json').read())
+
+    assert testFile == restoredFile

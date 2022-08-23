@@ -1,57 +1,58 @@
-from yato.actions import createConfig, createListList, new, addToList,\
-    listTasks, completeTask, removeTask, listAllLists,\
-    removeList, addDate, ListNameEdit, insert, changeListListPath,\
-    changeListPath, help, backup, restoreBackup
-from yato.get import getCmd, getFileLocation, getTask, getNewName, getDate, getuInt
+import yato.actions as actions
+import yato.get as get
 
 
 def main():
-    createConfig()  # create config.ini if it doesn't exist
-    createListList()  # create lists.json if it doesn't exist
-    if getCmd() == '-h' or getCmd() == '--help':  # help at help.txt
-        help()
+    actions.createConfig()  # create config.ini if it doesn't exist
+    actions.createListList()  # create lists.json if it doesn't exist
 
-    elif getCmd() == '-n' or getCmd() == '--new':  # New List
-        new(getFileLocation(2))  # getFileLocation(2) is the file location
+    # get command
+    cmd = get.getCmd()
 
-    elif getCmd() == '-a' or getCmd() == '--add':  # Add to list
-        addToList(getFileLocation(2), getTask(3))
+    if cmd == '-h' or cmd == '--help':  # help at help.txt
+        actions.help()
 
-    elif getCmd() == '-l' or getCmd() == '--list':  # List all tasks
-        listTasks(getFileLocation(2))
+    elif cmd == '-n' or cmd == '--new':  # New List
+        actions.new(get.getFileLocation(2))  # getFileLocation(2) is the file location
 
-    elif getCmd() == '-c' or getCmd() == '--complete':  # Complete task
-        completeTask(getFileLocation(2), getTask(3))
+    elif cmd == '-a' or cmd == '--add':  # Add to list
+        actions.addToList(get.getFileLocation(2), get.getTask(3))
 
-    elif getCmd() == '-r' or getCmd() == '--remove':  # Remove task
-        removeTask(getFileLocation(2), getTask(3))
+    elif cmd == '-l' or cmd == '--list':  # List all tasks
+        actions.listTasks(get.getFileLocation(2))
 
-    elif getCmd() == '-ll' or getCmd() == '--list-all':  # lists all lists
-        listAllLists()
+    elif cmd == '-c' or cmd == '--complete':  # Complete task
+        actions.completeTask(get.getFileLocation(2), get.getTask(3))
 
-    elif getCmd() == '-d' or getCmd() == '--delete':  # Delete list
-        removeList(getFileLocation(2))
+    elif cmd == '-r' or cmd == '--remove':  # Remove task
+        actions.removeTask(get.getFileLocation(2), get.getTask(3))
 
-    elif getCmd() == '-da' or getCmd() == '--date':  # Add date to task
-        addDate(getFileLocation(2), getTask(3), getDate(4))
+    elif cmd == '-ll' or cmd == '--list-all':  # lists all lists
+        actions.listAllLists()
 
-    elif getCmd() == '-e' or getCmd() == '--edit':  # Edit list name
-        ListNameEdit(getFileLocation(2), getNewName(3))
+    elif cmd == '-d' or cmd == '--delete':  # Delete list
+        actions.removeList(get.getFileLocation(2))
 
-    elif getCmd() == '-i' or getCmd() == '--insert':  # Insert task
-        insert(getFileLocation(2), getTask(3), getuInt(4))
+    elif cmd == '-da' or cmd == '--date':  # Add date to task
+        actions.addDate(get.getFileLocation(2), get.getTask(3), get.getDate(4))
 
-    elif getCmd() == '-cll' or getCmd() == '--change-list-list':
-        changeListListPath(getFileLocation(2))
+    elif cmd == '-e' or cmd == '--edit':  # Edit list name
+        actions.ListNameEdit(get.getFileLocation(2), get.getNewName(3))
 
-    elif getCmd() == '-cl' or getCmd() == '--change-list':
-        changeListPath(getFileLocation(2), getFileLocation(3))
+    elif cmd == '-i' or cmd == '--insert':  # Insert task
+        actions.insert(get.getFileLocation(2), get.getTask(3), get.getuInt(4))
 
-    elif getCmd() == '-b' or getCmd() == '--backup':
-        backup(getFileLocation(2), getFileLocation(3))
+    elif cmd == '-cll' or cmd == '--change-list-list':
+        actions.changeListListPath(get.getFileLocation(2))
 
-    elif getCmd() == '-rb' or getCmd() == '--restore-backup':
-        restoreBackup(getFileLocation(2), getFileLocation(3))
+    elif cmd == '-cl' or cmd == '--change-list':
+        actions.changeListPath(get.getFileLocation(2), get.getFileLocation(3))
+
+    elif cmd == '-b' or cmd == '--backup':
+        actions.backup(get.getFileLocation(2), get.getFileLocation(3))
+
+    elif cmd == '-rb' or cmd == '--restore-backup':
+        actions.restoreBackup(get.getFileLocation(2), get.getFileLocation(3))
 
 
 main()
