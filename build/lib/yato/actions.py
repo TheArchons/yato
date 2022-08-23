@@ -5,8 +5,10 @@ import json
 import configparser
 from shutil import copyfile
 
+
 def main():
     return
+
 
 def checkTaskExists(list, task):
     """"Checks if a task exists in a TODO list"""

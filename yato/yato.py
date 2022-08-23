@@ -13,7 +13,7 @@ def main():
         actions.help()
 
     elif cmd == '-n' or cmd == '--new':  # New List
-        actions.new(get.getFileLocation(2))  # getFileLocation(2) is the file location
+        actions.new(get.getFileLocation(2))
 
     elif cmd == '-a' or cmd == '--add':  # Add to list
         actions.addToList(get.getFileLocation(2), get.getTask(3))
