@@ -61,5 +61,8 @@ def main():
     elif cmd == '-sd' or cmd == '--set-default':
         actions.setDefault(get.getList(2))
 
+    else:
+        actions.invalidCmd()
+
 
 main()

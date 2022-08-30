@@ -297,3 +297,9 @@ def setDefault(list):
         print(f'List {list} set as default.')
     except KeyError:
         print(f'List {list} not found.')
+
+
+def invalidCmd():
+    """Print invalid command message"""
+
+    print('Invalid command. Use -h for help.')
