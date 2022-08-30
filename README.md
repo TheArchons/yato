@@ -1,6 +1,8 @@
 # yato
 yato - Yet another Todo app, a cli program for TODO lists
 
+![https://i.imgur.com/zqr15Za.png](https://i.imgur.com/zqr15Za.png)
+
 # Installation
 
 ## From pip
