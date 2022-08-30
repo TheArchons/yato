@@ -2,6 +2,7 @@
 
 import sys
 import datetime
+from yato.JSONManip import prevList, defaultList, setPrevList
 
 
 def getFileLocation(arg):
@@ -81,4 +82,26 @@ def getuInt(arg):
             sys.exit()
     except ValueError:
         print('Invalid, please enter a number.')
+        sys.exit()
+
+
+def getList(arg):
+    """Get the list from the command line."""
+
+    try:
+        if sys.argv[arg] == '-p':
+            # if they specified previous list, get the previous list
+            return prevList()
+
+        list = sys.argv[arg]
+
+        if sys.argv[arg] == '-d':
+            # if they specified the default list, get the default list
+            list = defaultList()
+
+        setPrevList(list)
+
+        return list
+    except IndexError:  # if no list is given
+        print('No list given. Example: todo')
         sys.exit()

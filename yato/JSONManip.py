@@ -2,6 +2,7 @@
 
 import json
 import sys
+from configparser import ConfigParser
 
 
 def getFile(filePos):
@@ -61,3 +62,42 @@ def delTasksTask(listLoc, task):
             break
     json.dump(file, open(listLoc, 'w'))
     return
+
+
+def prevList():
+    file = getFile('lists.json')
+    if file['prev'] != '':
+        return file['prev']
+    else:
+        print('No previous list.')
+        sys.exit()
+
+
+def setPrevList(list):
+    file = getFile('lists.json')
+    file['prev'] = list
+    json.dump(file, open('lists.json', 'w'))
+    return
+
+
+def defaultList():
+    file = getFile('lists.json')
+    if file['default'] != '':
+        return file['default']
+    else:
+        print('No default list. Add a default list with the command -sd or --set-default.')
+        sys.exit()
+
+
+def getListList():
+    config = ConfigParser()
+    config.read('config.ini')
+
+    return getFile(config['paths']['lists'])
+
+
+def getListListPath():
+    config = ConfigParser()
+    config.read('config.ini')
+
+    return config['paths']['lists']

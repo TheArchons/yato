@@ -11,6 +11,7 @@ from shutil import copyfile
 def main():
     return
 
+
 def checkTaskExists(list, task):
     """"Check if a task exists in a TODO list"""
 
@@ -82,7 +83,7 @@ def listTasks(fileLocation):
 
     file = JSONManip.getFile(fileLocation)
     for pos, task in enumerate(file['tasks']):
-        task[1] = pos+1
+        task[1] = pos + 1
         if file[task[0]]["complete"]:
             # print completed tasks green
             print(colored(str(task[1]) + '. ' + task[0], 'green'))
@@ -119,7 +120,8 @@ def removeTask(list, task):
 def listAllLists():
     """List all TODO lists"""
 
-    file = JSONManip.getFile('lists.json')
+    file = JSONManip.getListList()
+
     for list in file['lists']:
         print(list)
 
@@ -127,13 +129,12 @@ def listAllLists():
 def createListList():
     """If the list of lists doesn't exist, create it"""
 
-    # open config.ini
-    config = configparser.ConfigParser()
-    config.read('config.ini')
+    # get list
+    filePath = JSONManip.getListListPath()
 
     # create lists.txt if it doesn't exist
-    if not os.path.exists(config['paths']['lists']):
-        json.dump({"lists": []}, open('lists.json', 'w'))
+    if not os.path.exists(filePath):
+        json.dump({"lists": [], 'prev': '', 'default': ''}, open(filePath, 'w'))
 
 
 def removeList(listPos):
@@ -189,7 +190,7 @@ def insert(list, task, pos):
     for listTask in file['tasks']:
         if listTask[1] > highest:
             highest = listTask[1]
-    if pos > highest+1:
+    if pos > highest + 1:
         return print('Position too high.')
     # move up tasks in list that are greater or equal to pos
     firstPos = -1
@@ -200,9 +201,9 @@ def insert(list, task, pos):
             fileTask[1] += 1
     # insert task into list
     if firstPos == -1:
-        file['tasks'].insert(len(file['tasks'])+1, [task, pos])
+        file['tasks'].insert(len(file['tasks']) + 1, [task, pos])
     else:
-        file['tasks'].insert(firstPos-1, [task, pos])
+        file['tasks'].insert(firstPos - 1, [task, pos])
     file[task] = {'complete': False, 'index': pos}
     json.dump(file, open(list, 'w'))
 
@@ -279,3 +280,16 @@ def restoreBackup(backup, original):
         print(f'List {backup} restored to {original}.')
     else:
         print(f'List {backup} not found.')
+
+
+def setDefault(list):
+    """Set a list as the default list"""
+
+    file = JSONManip.getListList()
+
+    try:
+        file['default'] = list
+        json.dump(file, open('lists.json', 'w'))
+        print(f'List {list} set as default.')
+    except KeyError:
+        print(f'List {list} not found.')

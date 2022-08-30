@@ -17,46 +17,49 @@ def main():
         actions.help()
 
     elif cmd == '-n' or cmd == '--new':  # New List
-        actions.new(get.getFileLocation(2))
+        actions.new(get.getList(2))
 
     elif cmd == '-a' or cmd == '--add':  # Add to list
-        actions.addToList(get.getFileLocation(2), get.getTask(3))
+        actions.addToList(get.getList(2), get.getTask(3))
 
     elif cmd == '-l' or cmd == '--list':  # List all tasks
-        actions.listTasks(get.getFileLocation(2))
+        actions.listTasks(get.getList(2))
 
     elif cmd == '-c' or cmd == '--complete':  # Complete task
-        actions.completeTask(get.getFileLocation(2), get.getTask(3))
+        actions.completeTask(get.getList(2), get.getTask(3))
 
     elif cmd == '-r' or cmd == '--remove':  # Remove task
-        actions.removeTask(get.getFileLocation(2), get.getTask(3))
+        actions.removeTask(get.getList(2), get.getTask(3))
 
     elif cmd == '-ll' or cmd == '--list-all':  # lists all lists
         actions.listAllLists()
 
     elif cmd == '-d' or cmd == '--delete':  # Delete list
-        actions.removeList(get.getFileLocation(2))
+        actions.removeList(get.getList(2))
 
     elif cmd == '-da' or cmd == '--date':  # Add date to task
-        actions.addDate(get.getFileLocation(2), get.getTask(3), get.getDate(4))
+        actions.addDate(get.getList(2), get.getTask(3), get.getDate(4))
 
     elif cmd == '-e' or cmd == '--edit':  # Edit list name
-        actions.ListNameEdit(get.getFileLocation(2), get.getNewName(3))
+        actions.ListNameEdit(get.getList(2), get.getNewName(3))
 
     elif cmd == '-i' or cmd == '--insert':  # Insert task
-        actions.insert(get.getFileLocation(2), get.getTask(3), get.getuInt(4))
+        actions.insert(get.getList(2), get.getTask(3), get.getuInt(4))
 
     elif cmd == '-cll' or cmd == '--change-list-list':
         actions.changeListListPath(get.getFileLocation(2))
 
     elif cmd == '-cl' or cmd == '--change-list':
-        actions.changeListPath(get.getFileLocation(2), get.getFileLocation(3))
+        actions.changeListPath(get.getList(2), get.getList(3))
 
     elif cmd == '-b' or cmd == '--backup':
-        actions.backup(get.getFileLocation(2), get.getFileLocation(3))
+        actions.backup(get.getList(2), get.getList(3))
 
     elif cmd == '-rb' or cmd == '--restore-backup':
-        actions.restoreBackup(get.getFileLocation(2), get.getFileLocation(3))
+        actions.restoreBackup(get.getList(2), get.getList(3))
+
+    elif cmd == '-sd' or cmd == '--set-default':
+        actions.setDefault(get.getList(2))
 
 
 main()

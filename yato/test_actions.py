@@ -3,7 +3,7 @@
 import pytest
 import json
 import yato.actions as actions
-from JSONManip import getFile as getFile
+from JSONManip import getFile as getFile, getListList as getListList
 import os
 from pathlib import Path
 from shutil import rmtree
@@ -295,3 +295,29 @@ def test_restoreBackup():
     restoredFile = json.loads(open('test.json').read())
 
     assert testFile == restoredFile
+
+
+def test_setDefault():
+    """Test setDefault"""
+
+    # create lists.json
+    actions.createConfig()
+    actions.createListList()
+
+    # create list
+    actions.new('test.json')
+
+    # add task to test.json
+    actions.addToList('test.json', 'task')
+
+    # set default list to test.json
+    actions.setDefault('test.json')
+
+    # check if default list is test.json
+    assert getListList()['default'] == 'test.json'
+
+    # set default list to test2.json
+    actions.setDefault('test2.json')
+
+    # check if default list is test2.json
+    assert getListList()['default'] == 'test2.json'
