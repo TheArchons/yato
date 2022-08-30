@@ -49,7 +49,11 @@ def help():
     -cll or --change-list-list: change the location of the list of lists\n\
     -cl or --change-list:     change the location of a TODO list\n\
     -b or --backup:     backup a TODO list\n\
-    -rb or --restore:   restore a TODO list\n")
+    -rb or --restore:   restore a TODO list\n\
+    -sd or --set-default: set the default TODO list\n\
+    \n\
+    To specify the previous TODO list, replace the list location with -p\n\
+    To specify the default TODO list, replace the list location with -d\n")
 
 
 def new(fileLocation):

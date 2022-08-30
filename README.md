@@ -50,6 +50,10 @@ For example, to create a new TODO list, run `yato -n`
 | `-cll` or `--change-list-list` | change the location of the list of lists file
 | `-b` or `--backup` | backup the TODO list
 | `-rb` or `--restore-backup` | restore a backup of a TODO list
+| `-sd` or `--set-default` | set the default TODO list
+
+To select the previous TODO list, replace the list location with `-p`. \
+To select the default TODO list, replace the list location with `-d`.
 
 # Dependencies
 If you're installing from pip, these are automatically installed. \

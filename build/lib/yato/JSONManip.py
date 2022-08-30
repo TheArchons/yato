@@ -4,6 +4,7 @@ import json
 import sys
 from configparser import ConfigParser
 
+
 def getFile(filePos):
     """Get the file and return it as a dictionary."""
     try:
