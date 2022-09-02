@@ -61,6 +61,9 @@ def main():
     elif cmd == '-sd' or cmd == '--set-default':
         actions.setDefault(get.getList(2))
 
+    elif cmd == '-v' or cmd == '--version':
+        actions.getVer()
+
     else:
         actions.invalidCmd()
 

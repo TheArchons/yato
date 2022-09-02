@@ -51,6 +51,7 @@ For example, to create a new TODO list, run `yato -n`
 | `-b` or `--backup` | backup the TODO list
 | `-rb` or `--restore-backup` | restore a backup of a TODO list
 | `-sd` or `--set-default` | set the default TODO list
+| `-v` or `--version` | show the version of yato
 
 To select the previous TODO list, replace the list location with `-p`. \
 To select the default TODO list, replace the list location with `-d`.

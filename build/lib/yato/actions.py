@@ -52,6 +52,7 @@ def help():
     -b or --backup:     backup a TODO list
     -rb or --restore:   restore a TODO list
     -sd or --set-default: set the default TODO list
+    -v or --version:    show the version of yato
 
     To specify the previous TODO list, replace the list location with -p
     To specify the default TODO list, replace the list location with -d""")
@@ -313,3 +314,9 @@ def invalidCmd():
     """Print invalid command message"""
 
     print('Invalid command. Use -h for help.')
+
+
+def getVer():
+    """Get the version of the program"""
+
+    print("Yato - Version 1.3.0")
