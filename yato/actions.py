@@ -89,11 +89,20 @@ def listTasks(fileLocation):
     for pos, task in enumerate(file['tasks']):
         task[1] = pos + 1
         if file[task[0]]["complete"]:
-            # print completed tasks green
-            print(colored(str(task[1]) + '. ' + task[0], 'green'))
+            # print completed tasks in green
+            color = 'green'
         else:
-            # print uncompleted tasks red
-            print(colored(str(task[1]) + '. ' + task[0], 'red'))
+            # print uncompleted tasks int red
+            color = 'red'
+
+        due = ''
+
+        if 'date' in file[task[0]]:
+            # print due date if it exists
+            due = file[task[0]]['date']
+            due = f' due: {due[0]}/{due[1]}/{due[2]}'
+
+        print(colored(str(task[1]) + '. ' + task[0] + due, color))
 
 
 def completeTask(list, task):
