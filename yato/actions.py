@@ -35,26 +35,26 @@ def warningDataLoss():
 def help():
     """Print help message"""
 
-    print("yato - yet another TODO list\n\
-    -h or --help:       show this help\n\
-    -n or --new:        create a new TODO list\n\
-    -a or --add:        add a task to a TODO list\n\
-    -c or --complete:   complete a task\n\
-    -r or --remove:     remove a task\n\
-    -l or --list:       list all tasks\n\
-    -ll or --list-all:  list all TODO lists\n\
-    -d or --delete:     delete a TODO list\n\
-    -da or --date:      add a date to a task\n\
-    -e or --edit:       edit a TODO list's name\n\
-    -i or --insert:     insert a task into a TODO list\n\
-    -cll or --change-list-list: change the location of the list of lists\n\
-    -cl or --change-list:     change the location of a TODO list\n\
-    -b or --backup:     backup a TODO list\n\
-    -rb or --restore:   restore a TODO list\n\
-    -sd or --set-default: set the default TODO list\n\
-    \n\
-    To specify the previous TODO list, replace the list location with -p\n\
-    To specify the default TODO list, replace the list location with -d\n")
+    print("""yato - yet another TODO list
+    -h or --help:       show this help
+    -n or --new:        create a new TODO list
+    -a or --add:        add a task to a TODO list
+    -c or --complete:   complete a task
+    -r or --remove:     remove a task
+    -l or --list:       list all tasks
+    -ll or --list-all:  list all TODO lists
+    -d or --delete:     delete a TODO list
+    -da or --date:      add a date to a task
+    -e or --edit:       edit a TODO list's name
+    -i or --insert:     insert a task into a TODO list
+    -cll or --change-list-list: change the location of the list of lists
+    -cl or --change-list:     change the location of a TODO list
+    -b or --backup:     backup a TODO list
+    -rb or --restore:   restore a TODO list
+    -sd or --set-default: set the default TODO list
+
+    To specify the previous TODO list, replace the list location with -p
+    To specify the default TODO list, replace the list location with -d""")
 
 
 def new(fileLocation):
