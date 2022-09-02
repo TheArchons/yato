@@ -65,6 +65,7 @@ def delTasksTask(listLoc, task):
 
 
 def prevList():
+    """Get the previous list."""
     file = getFile('lists.json')
     if file['prev'] != '':
         return file['prev']
@@ -74,6 +75,7 @@ def prevList():
 
 
 def setPrevList(list):
+    """Set the previous list."""
     file = getFile('lists.json')
     file['prev'] = list
     json.dump(file, open('lists.json', 'w'))
@@ -81,6 +83,7 @@ def setPrevList(list):
 
 
 def defaultList():
+    """Get the default list."""
     file = getFile('lists.json')
     if file['default'] != '':
         return file['default']
@@ -90,6 +93,7 @@ def defaultList():
 
 
 def getListList():
+    """Get the list of lists."""
     config = ConfigParser()
     config.read('config.ini')
 
@@ -97,6 +101,7 @@ def getListList():
 
 
 def getListListPath():
+    """Get the path to the list of lists."""
     config = ConfigParser()
     config.read('config.ini')
 

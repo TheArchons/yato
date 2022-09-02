@@ -9,6 +9,7 @@ from shutil import copyfile
 
 
 def main():
+    """Main function, empty return"""
     return
 
 
