@@ -11,3 +11,4 @@ __pycache__
 # file created by yato
 lists.json
 config.ini
+/venv/
