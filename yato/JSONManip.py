@@ -3,6 +3,9 @@
 import json
 import sys
 from configparser import ConfigParser
+from pathlib import Path
+
+configPath = str(Path.home()) + '/.config/yato/config.ini'
 
 
 def getFile(filePos):
@@ -91,11 +94,10 @@ def defaultList():
         print('No default list. Add a default list with the command -sd or --set-default.')
         sys.exit()
 
-
 def getListList():
     """Get the list of lists."""
     config = ConfigParser()
-    config.read('config.ini')
+    config.read(configPath)
 
     return getFile(config['paths']['lists'])
 
@@ -103,6 +105,6 @@ def getListList():
 def getListListPath():
     """Get the path to the list of lists."""
     config = ConfigParser()
-    config.read('config.ini')
+    config.read(configPath)
 
     return config['paths']['lists']

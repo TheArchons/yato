@@ -6,7 +6,9 @@ import os
 import json
 import configparser
 from shutil import copyfile
+from pathlib import Path
 
+configPath = str(Path.home()) + '/.config/yato/config.ini'
 
 def main():
     """Main function, empty return"""
@@ -226,16 +228,16 @@ def insert(list, task, pos):
 def changeListListPath(newPath):
     """Change the location of the list of lists"""
 
-    # open config.ini
+    # open configPath
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read(configPath)
 
     # change path
     oldPath = config['paths']['lists']
     config['paths']['lists'] = newPath
 
-    # write config.ini
-    with open('config.ini', 'w') as configFile:
+    # write configPath
+    with open(configPath, 'w') as configFile:
         config.write(configFile)
 
     # move file
@@ -245,10 +247,11 @@ def changeListListPath(newPath):
 
 
 def createConfig():
-    """Create config.ini if it doesn't exist"""
+    """Create configPath if it doesn't exist"""
+    os.makedirs(os.path.dirname(configPath), exist_ok=True)
 
-    if not os.path.exists('config.ini'):
-        with open('config.ini', 'w') as config:
+    if not os.path.exists(configPath):
+        with open(configPath, 'w') as config:
             config.write('[paths]\n')
             config.write("lists = lists.json \n")
 
